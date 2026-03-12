@@ -1,0 +1,527 @@
+import React, { useState, useMemo, useEffect } from 'react';
+import { Globe, Printer, Calculator, Table as TableIcon, Moon, Users, Coffee, CreditCard, Calendar, Loader2 } from 'lucide-react';
+
+// --- DATA EXTRACTED FROM SPREADSHEET ---
+const pricingData = [
+  { room: "Standard Bungalow", occupancy: "Double (2 Guests)", plan: "Bed & Breakfast (BB)", mad: 1000.00, eur: 93.46 },
+  { room: "Standard Bungalow", occupancy: "Double (2 Guests)", plan: "Demi Pension (DP)", mad: 1250.00, eur: 116.82 },
+  { room: "Standard Bungalow", occupancy: "Double (2 Guests)", plan: "Pension Complète (PC)*", mad: 1450.00, eur: 135.51 },
+  { room: "Standard Bungalow", occupancy: "Single (1 Guest)", plan: "Bed & Breakfast (BB)", mad: 900.00, eur: 84.11 },
+  { room: "Standard Bungalow", occupancy: "Single (1 Guest)", plan: "Demi Pension (DP)", mad: 1100.00, eur: 102.80 },
+  { room: "Standard Bungalow", occupancy: "Single (1 Guest)", plan: "Pension Complète (PC)*", mad: 1300.00, eur: 121.50 },
+  
+  { room: "Bungalow with Sea View", occupancy: "Double (2 Guests)", plan: "Bed & Breakfast (BB)", mad: 1150.00, eur: 107.48 },
+  { room: "Bungalow with Sea View", occupancy: "Double (2 Guests)", plan: "Demi Pension (DP)", mad: 1350.00, eur: 126.17 },
+  { room: "Bungalow with Sea View", occupancy: "Double (2 Guests)", plan: "Pension Complète (PC)*", mad: 1600.00, eur: 149.53 },
+  { room: "Bungalow with Sea View", occupancy: "Single (1 Guest)", plan: "Bed & Breakfast (BB)", mad: 1050.00, eur: 98.13 },
+  { room: "Bungalow with Sea View", occupancy: "Single (1 Guest)", plan: "Demi Pension (DP)", mad: 1150.00, eur: 107.48 },
+  { room: "Bungalow with Sea View", occupancy: "Single (1 Guest)", plan: "Pension Complète (PC)*", mad: 1300.00, eur: 121.50 },
+
+  { room: "Deluxe Bungalow", occupancy: "Double (2 Guests)", plan: "Bed & Breakfast (BB)", mad: 1650.00, eur: 154.21 },
+  { room: "Deluxe Bungalow", occupancy: "Double (2 Guests)", plan: "Demi Pension (DP)", mad: 1750.00, eur: 163.55 },
+  { room: "Deluxe Bungalow", occupancy: "Double (2 Guests)", plan: "Pension Complète (PC)*", mad: 2000.00, eur: 186.92 },
+  { room: "Deluxe Bungalow", occupancy: "Single (1 Guest)", plan: "Bed & Breakfast (BB)", mad: 1400.00, eur: 130.84 },
+  { room: "Deluxe Bungalow", occupancy: "Single (1 Guest)", plan: "Demi Pension (DP)", mad: 1550.00, eur: 144.86 },
+  { room: "Deluxe Bungalow", occupancy: "Single (1 Guest)", plan: "Pension Complète (PC)*", mad: 1700.00, eur: 158.88 },
+
+  { room: "Suite", occupancy: "Double (2 Guests)", plan: "Bed & Breakfast (BB)", mad: 1500.00, eur: 140.19 },
+  { room: "Suite", occupancy: "Double (2 Guests)", plan: "Demi Pension (DP)", mad: 1750.00, eur: 163.55 },
+  { room: "Suite", occupancy: "Double (2 Guests)", plan: "Pension Complète (PC)*", mad: 1950.00, eur: 182.24 },
+  { room: "Suite", occupancy: "Single (1 Guest)", plan: "Bed & Breakfast (BB)", mad: 1350.00, eur: 126.17 },
+  { room: "Suite", occupancy: "Single (1 Guest)", plan: "Demi Pension (DP)", mad: 1550.00, eur: 144.86 },
+  { room: "Suite", occupancy: "Single (1 Guest)", plan: "Pension Complète (PC)*", mad: 1750.00, eur: 163.55 },
+];
+
+const rooms = [...new Set(pricingData.map(item => item.room))];
+const occupancies = [...new Set(pricingData.map(item => item.occupancy))];
+const ratePlans = [...new Set(pricingData.map(item => item.plan))];
+
+// --- TRANSLATIONS ---
+const translations = {
+  en: {
+    appTitle: "Dakhla Camp Kitesurf - Reception",
+    switchLang: "Passer en Français",
+    tabPrices: "Price List",
+    tabCalculator: "Quote Calculator",
+    roomType: "Room Type",
+    occupancy: "Occupancy",
+    ratePlan: "Rate Plan",
+    priceMad: "PRICE DIRECT MAD",
+    priceEur: "PRICE DIRECT EURO",
+    currency: "Select Currency",
+    arrival: "Arrival Date",
+    departure: "Departure Date",
+    nights: "Number of Nights",
+    clientName: "Client Name (Optional)",
+    total: "Total Price",
+    nightlyRate: "Nightly Rate",
+    generatePdf: "Generate PDF Devis",
+    generatingPdf: "Generating...",
+    devisTitle: "PRICE QUOTE",
+    date: "Date",
+    summary: "Stay Summary",
+    footerMsg: "Thank you for choosing Dakhla Camp Kitesurf. We look forward to welcoming you!"
+  },
+  fr: {
+    appTitle: "Dakhla Camp Kitesurf - Réception",
+    switchLang: "Switch to English",
+    tabPrices: "Liste des Prix",
+    tabCalculator: "Calculateur de Devis",
+    roomType: "Type de Chambre",
+    occupancy: "Occupation",
+    ratePlan: "Régime",
+    priceMad: "PRIX DIRECT MAD",
+    priceEur: "PRIX DIRECT EURO",
+    currency: "Sélectionner la Devise",
+    arrival: "Date d'arrivée",
+    departure: "Date de départ",
+    nights: "Nombre de Nuits",
+    clientName: "Nom du Client (Optionnel)",
+    total: "Prix Total",
+    nightlyRate: "Tarif par Nuit",
+    generatePdf: "Générer un Devis PDF",
+    generatingPdf: "Génération en cours...",
+    devisTitle: "DEVIS ESTIMATIF",
+    date: "Date",
+    summary: "Résumé du Séjour",
+    footerMsg: "Merci d'avoir choisi Dakhla Camp Kitesurf. Nous avons hâte de vous accueillir !"
+  }
+};
+
+export default function App() {
+  const [lang, setLang] = useState('fr');
+  const t = translations[lang];
+
+  // Load html2pdf safely
+  useEffect(() => {
+    if (document.getElementById('html2pdf-script')) return;
+    const script = document.createElement('script');
+    script.id = 'html2pdf-script';
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
+  // Calculator State
+  const [currency, setCurrency] = useState('MAD');
+  const [selectedRoom, setSelectedRoom] = useState(rooms[0]);
+  const [selectedOccupancy, setSelectedOccupancy] = useState(occupancies[0]);
+  const [selectedPlan, setSelectedPlan] = useState(ratePlans[0]);
+  
+  const [arrivalDate, setArrivalDate] = useState('');
+  const [departureDate, setDepartureDate] = useState('');
+  const [nights, setNights] = useState(1);
+  
+  const [clientName, setClientName] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const toggleLanguage = () => setLang(lang === 'en' ? 'fr' : 'en');
+
+  // Helper to calculate nights between two dates
+  const calculateNights = (start, end) => {
+    if (!start || !end) return 0;
+    const d1 = new Date(start);
+    const d2 = new Date(end);
+    const diffTime = d2 - d1;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays > 0 ? diffDays : 0;
+  };
+
+  const handleArrivalChange = (e) => {
+    const newArrival = e.target.value;
+    setArrivalDate(newArrival);
+    if (!newArrival) return;
+    
+    if (departureDate) {
+      const n = calculateNights(newArrival, departureDate);
+      if (n > 0) setNights(n);
+    } else if (nights > 0) {
+      const d1 = new Date(newArrival);
+      d1.setDate(d1.getDate() + nights);
+      setDepartureDate(d1.toISOString().split('T')[0]);
+    }
+  };
+
+  const handleDepartureChange = (e) => {
+    const newDep = e.target.value;
+    setDepartureDate(newDep);
+    if (!newDep) return;
+
+    if (arrivalDate) {
+      const n = calculateNights(arrivalDate, newDep);
+      if (n > 0) setNights(n);
+    }
+  };
+
+  const handleNightsChange = (e) => {
+    const n = parseInt(e.target.value) || 0;
+    setNights(n);
+    if (arrivalDate && n > 0) {
+      const d1 = new Date(arrivalDate);
+      d1.setDate(d1.getDate() + n);
+      setDepartureDate(d1.toISOString().split('T')[0]);
+    } else if (n === 0) {
+      setDepartureDate('');
+    }
+  };
+
+  // Find exact price based on selections
+  const currentPricing = useMemo(() => {
+    return pricingData.find(
+      p => p.room === selectedRoom && p.occupancy === selectedOccupancy && p.plan === selectedPlan
+    );
+  }, [selectedRoom, selectedOccupancy, selectedPlan]);
+
+  const nightlyRate = currentPricing ? (currency === 'MAD' ? currentPricing.mad : currentPricing.eur) : 0;
+  const totalPrice = nightlyRate * (nights || 0);
+
+  // BULLETPROOF PDF GENERATION LOGIC
+  const handlePrint = () => {
+    if (!window.html2pdf) {
+      window.print();
+      return;
+    }
+
+    // 1. Show the overlay so the invoice physically exists on the screen
+    setIsGenerating(true);
+
+    // 2. Wait 500ms to guarantee the browser has finished painting it
+    setTimeout(async () => {
+      const element = document.getElementById('devis-print-area');
+      
+      const opt = {
+        margin:       0,
+        filename:     `Devis_Dakhla_Camp_${clientName ? clientName.replace(/\s+/g, '_') : 'Client'}.pdf`,
+        image:        { type: 'jpeg', quality: 1 },
+        html2canvas:  { 
+          scale: 2, 
+          useCORS: true,
+          scrollY: 0
+        },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
+
+      try {
+        await window.html2pdf().set(opt).from(element).save();
+      } catch (err) {
+        console.error("PDF generation failed:", err);
+        alert("Error generating PDF. Opening standard print dialog.");
+        window.print(); 
+      } finally {
+        // 3. Hide the overlay once finished
+        setIsGenerating(false);
+      }
+    }, 500);
+  };
+
+  const formatCurrency = (val, curr) => {
+    return new Intl.NumberFormat(lang === 'fr' ? 'fr-FR' : 'en-US', {
+      style: 'currency',
+      currency: curr,
+      minimumFractionDigits: 2
+    }).format(val);
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans">
+      
+      {/* HEADER - Hidden in Print */}
+      <header className="bg-sky-900 text-white p-4 shadow-md print:hidden flex justify-between items-center sticky top-0 z-10">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+            <span className="text-sky-900 font-bold text-xl">DC</span>
+          </div>
+          <h1 className="text-2xl font-bold tracking-wide">{t.appTitle}</h1>
+        </div>
+        <button 
+          onClick={toggleLanguage}
+          className="flex items-center gap-2 bg-sky-800 hover:bg-sky-700 px-4 py-2 rounded-lg transition-colors border border-sky-600 font-medium"
+        >
+          <Globe size={18} />
+          {t.switchLang}
+        </button>
+      </header>
+
+      {/* MAIN CONTENT - Hidden in Print */}
+      <main className="p-6 max-w-7xl mx-auto space-y-8 print:hidden">
+        
+        {/* TOP SECTION: CALCULATOR */}
+        <section className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div className="bg-slate-100 p-4 border-b border-slate-200 flex items-center gap-2">
+            <Calculator className="text-sky-600" />
+            <h2 className="text-lg font-bold text-slate-800">{t.tabCalculator}</h2>
+          </div>
+          
+          <div className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+              
+              {/* Currency Selection */}
+              <div className="col-span-1 lg:col-span-4 grid grid-cols-1 md:grid-cols-2 gap-6 pb-4 border-b border-slate-100">
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-600 flex items-center gap-2">
+                    <CreditCard size={16}/> {t.currency}
+                  </label>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setCurrency('MAD')}
+                      className={`flex-1 py-3 px-4 rounded-xl border-2 font-bold transition-all ${currency === 'MAD' ? 'border-sky-600 bg-sky-50 text-sky-800' : 'border-slate-200 text-slate-500 hover:bg-slate-50'}`}
+                    >
+                      MAD (Dirham)
+                    </button>
+                    <button
+                      onClick={() => setCurrency('EUR')}
+                      className={`flex-1 py-3 px-4 rounded-xl border-2 font-bold transition-all ${currency === 'EUR' ? 'border-sky-600 bg-sky-50 text-sky-800' : 'border-slate-200 text-slate-500 hover:bg-slate-50'}`}
+                    >
+                      EUR (€)
+                    </button>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-slate-600 flex items-center gap-2">
+                    {t.clientName}
+                  </label>
+                  <input 
+                    type="text" 
+                    value={clientName}
+                    onChange={(e) => setClientName(e.target.value)}
+                    placeholder="Ex: John Doe"
+                    className="w-full p-3 border-2 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-sky-500 outline-none transition-colors"
+                  />
+                </div>
+              </div>
+
+              {/* Form Selectors */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-600 flex items-center gap-2">
+                  <Moon size={16}/> {t.roomType}
+                </label>
+                <select 
+                  className="w-full p-3 border-2 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-sky-500 outline-none transition-colors"
+                  value={selectedRoom} onChange={(e) => setSelectedRoom(e.target.value)}
+                >
+                  {rooms.map(r => <option key={r} value={r}>{r}</option>)}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-600 flex items-center gap-2">
+                  <Users size={16}/> {t.occupancy}
+                </label>
+                <select 
+                  className="w-full p-3 border-2 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-sky-500 outline-none transition-colors"
+                  value={selectedOccupancy} onChange={(e) => setSelectedOccupancy(e.target.value)}
+                >
+                  {occupancies.map(o => <option key={o} value={o}>{o}</option>)}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-600 flex items-center gap-2">
+                  <Coffee size={16}/> {t.ratePlan}
+                </label>
+                <select 
+                  className="w-full p-3 border-2 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-sky-500 outline-none transition-colors"
+                  value={selectedPlan} onChange={(e) => setSelectedPlan(e.target.value)}
+                >
+                  {ratePlans.map(p => <option key={p} value={p}>{p}</option>)}
+                </select>
+              </div>
+            </div>
+
+            {/* Dates & Nights Section */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-600 flex items-center gap-2">
+                  <Calendar size={16}/> {t.arrival}
+                </label>
+                <input 
+                  type="date" 
+                  className="w-full p-3 border-2 border-slate-200 rounded-xl bg-white focus:border-sky-500 outline-none transition-colors"
+                  value={arrivalDate} onChange={handleArrivalChange}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-600 flex items-center gap-2">
+                  <Calendar size={16}/> {t.departure}
+                </label>
+                <input 
+                  type="date" 
+                  className="w-full p-3 border-2 border-slate-200 rounded-xl bg-white focus:border-sky-500 outline-none transition-colors"
+                  value={departureDate} onChange={handleDepartureChange}
+                  min={arrivalDate || undefined}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-600 flex items-center gap-2">
+                  <Moon size={16}/> {t.nights}
+                </label>
+                <input 
+                  type="number" 
+                  min="1" 
+                  className="w-full p-3 border-2 border-slate-200 rounded-xl bg-white focus:border-sky-500 outline-none transition-colors font-bold text-lg text-sky-700"
+                  value={nights} onChange={handleNightsChange}
+                />
+              </div>
+            </div>
+
+            {/* Results & Actions */}
+            <div className="mt-8 bg-sky-50 rounded-2xl p-6 border border-sky-100 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="space-y-1 text-center md:text-left">
+                <p className="text-sky-800 text-sm font-semibold uppercase tracking-wider">{t.nightlyRate}: {formatCurrency(nightlyRate, currency)}</p>
+                <p className="text-4xl font-extrabold text-sky-950">
+                  {t.total}: {formatCurrency(totalPrice, currency)}
+                </p>
+              </div>
+              
+              <button 
+                onClick={handlePrint}
+                disabled={isGenerating}
+                className={`text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center gap-3 shadow-lg transition-all active:scale-95 ${
+                  isGenerating ? 'bg-slate-400 cursor-not-allowed shadow-none' : 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-200'
+                }`}
+              >
+                {isGenerating ? <Loader2 className="animate-spin" size={24} /> : <Printer size={24} />}
+                {isGenerating ? t.generatingPdf : t.generatePdf}
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* BOTTOM SECTION: PRICING TABLE */}
+        <section className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div className="bg-slate-100 p-4 border-b border-slate-200 flex items-center gap-2">
+            <TableIcon className="text-sky-600" />
+            <h2 className="text-lg font-bold text-slate-800">{t.tabPrices}</h2>
+          </div>
+          
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm whitespace-nowrap">
+              <thead className="bg-slate-50 border-b-2 border-slate-200 text-slate-600">
+                <tr>
+                  <th className="p-4 font-bold uppercase tracking-wider">{t.roomType}</th>
+                  <th className="p-4 font-bold uppercase tracking-wider">{t.occupancy}</th>
+                  <th className="p-4 font-bold uppercase tracking-wider">{t.ratePlan}</th>
+                  <th className="p-4 font-bold uppercase tracking-wider text-right">{t.priceMad}</th>
+                  <th className="p-4 font-bold uppercase tracking-wider text-right">{t.priceEur}</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {pricingData.map((row, idx) => {
+                  const isFirstRoom = idx === 0 || pricingData[idx-1].room !== row.room;
+                  const isFirstOcc = isFirstRoom || pricingData[idx-1].occupancy !== row.occupancy;
+                  
+                  return (
+                    <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                      <td className={`p-4 align-top ${isFirstRoom ? 'font-bold text-slate-800' : 'text-transparent'}`}>
+                        {isFirstRoom ? row.room : '”'}
+                      </td>
+                      <td className={`p-4 align-top ${isFirstOcc ? 'font-medium text-slate-700' : 'text-transparent'}`}>
+                        {isFirstOcc ? row.occupancy : '”'}
+                      </td>
+                      <td className="p-4 text-slate-600">{row.plan}</td>
+                      <td className="p-4 text-right font-semibold text-emerald-700">{formatCurrency(row.mad, 'MAD')}</td>
+                      <td className="p-4 text-right font-semibold text-blue-700">{formatCurrency(row.eur, 'EUR')}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </main>
+
+      {/* --- PRINT ONLY VIEW (DEVIS) --- */}
+      {/* The visible overlay completely solves the blank PDF issue by letting the camera "see" the paper */}
+      <div className={`${isGenerating ? 'fixed inset-0 z-[9999] bg-slate-800/90 flex flex-col items-center overflow-y-auto pt-10 pb-20' : 'hidden print:block'}`}>
+        
+        {isGenerating && (
+          <div className="mb-6 flex items-center gap-3 bg-white text-sky-900 px-6 py-3 rounded-full shadow-xl font-bold text-lg animate-pulse">
+            <Loader2 className="animate-spin" size={24} />
+            {t.generatingPdf}
+          </div>
+        )}
+
+        <div id="devis-print-area" className="w-[800px] min-h-[1050px] bg-white p-12 text-slate-900 font-sans shrink-0 relative">
+        
+          {/* Print Header */}
+          <div className="flex justify-between items-start border-b-4 border-sky-900 pb-8 mb-8">
+            <div>
+              <h1 className="text-4xl font-black text-sky-900 uppercase tracking-tighter">Dakhla Camp</h1>
+              <p className="text-xl font-bold text-sky-700 tracking-widest mt-1">KITESURF</p>
+              <p className="text-slate-500 mt-2 text-sm">PK 28 Route El Argoub<br/>Dakhla, Morocco</p>
+            </div>
+            <div className="text-right">
+              <h2 className="text-3xl font-bold text-slate-300 uppercase">{t.devisTitle}</h2>
+              <p className="mt-4 text-slate-600"><strong>{t.date}:</strong> {new Date().toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-US')}</p>
+              {clientName && <p className="mt-1 text-slate-600 text-lg"><strong>Client:</strong> {clientName}</p>}
+            </div>
+          </div>
+
+          {/* Print Body */}
+          <div className="mb-12">
+            <h3 className="text-xl font-bold border-b-2 border-slate-200 pb-2 mb-6 uppercase tracking-wider text-slate-700">{t.summary}</h3>
+            
+            <table className="w-full text-left mb-8">
+              <tbody className="divide-y divide-slate-200">
+                <tr>
+                  <td className="py-4 font-semibold text-slate-600 w-1/3">{t.roomType}</td>
+                  <td className="py-4 font-bold text-lg">{selectedRoom}</td>
+                </tr>
+                <tr>
+                  <td className="py-4 font-semibold text-slate-600">{t.occupancy}</td>
+                  <td className="py-4 font-bold text-lg">{selectedOccupancy}</td>
+                </tr>
+                <tr>
+                  <td className="py-4 font-semibold text-slate-600">{t.ratePlan}</td>
+                  <td className="py-4 font-bold text-lg">{selectedPlan}</td>
+                </tr>
+                {arrivalDate && (
+                  <tr>
+                    <td className="py-4 font-semibold text-slate-600">{t.arrival}</td>
+                    <td className="py-4 font-bold text-lg">{new Date(arrivalDate).toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-US')}</td>
+                  </tr>
+                )}
+                {departureDate && (
+                  <tr>
+                    <td className="py-4 font-semibold text-slate-600">{t.departure}</td>
+                    <td className="py-4 font-bold text-lg">{new Date(departureDate).toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-US')}</td>
+                  </tr>
+                )}
+                <tr>
+                  <td className="py-4 font-semibold text-slate-600">{t.nights}</td>
+                  <td className="py-4 font-bold text-lg">{nights}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Print Pricing Totals */}
+          <div className="flex justify-end">
+            <div className="w-1/2 bg-slate-50 p-6 rounded-xl border border-slate-200">
+              <div className="flex justify-between mb-3 text-slate-600">
+                <span>{t.nightlyRate}</span>
+                <span className="font-semibold">{formatCurrency(nightlyRate, currency)}</span>
+              </div>
+              <div className="flex justify-between border-t border-slate-200 pt-4 mt-2">
+                <span className="text-2xl font-bold text-sky-900">{t.total}</span>
+                <span className="text-2xl font-black text-sky-900">{formatCurrency(totalPrice, currency)}</span>
+              </div>
+              <p className="text-right text-xs text-slate-400 mt-2">Taxes incluses / Taxes included</p>
+            </div>
+          </div>
+
+          {/* Print Footer */}
+          <div className="mt-24 pt-8 border-t border-slate-200 text-center text-slate-500 text-sm">
+            <p>{t.footerMsg}</p>
+            <p className="mt-2 font-semibold">www.dakhlacamp.com</p>
+          </div>
+          
+        </div>
+      </div>
+
+    </div>
+  );
+}
