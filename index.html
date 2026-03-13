@@ -58,7 +58,7 @@
                         </div>
                         <div class="space-y-2">
                             <label class="text-sm font-semibold text-slate-600 flex items-center gap-2" data-t="clientName">Nom du Client (Optionnel)</label>
-                            <input type="text" id="input-client" placeholder="Ex: John Doe" class="w-full p-3 border-2 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-sky-500 outline-none transition-colors" />
+                            <input type="text" id="input-client" class="w-full p-3 border-2 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-sky-500 outline-none transition-colors" />
                         </div>
                     </div>
 
@@ -115,18 +115,60 @@
                     </div>
                 </div>
 
+                <!-- Discount Section -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 p-4 bg-rose-50 border border-rose-100 rounded-2xl">
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-slate-600 flex items-center gap-2">
+                            <svg class="text-rose-500" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><circle cx="12" cy="12" r="4"/></svg>
+                            <span data-t="discount">Réduction</span>
+                        </label>
+                        <div class="flex">
+                            <input type="number" id="input-discount-val" min="0" value="0" class="w-full p-3 border-2 border-r-0 border-slate-200 rounded-l-xl bg-white focus:border-rose-500 outline-none transition-colors font-bold" />
+                            <select id="select-discount-type" class="p-3 border-2 border-slate-200 rounded-r-xl bg-slate-50 focus:border-rose-500 outline-none transition-colors font-semibold text-slate-700">
+                                <option value="percent">%</option>
+                                <option value="fixed" data-t="fixed">Fixe</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="space-y-2 md:col-span-2">
+                        <label class="text-sm font-semibold text-slate-600 flex items-center gap-2">
+                            <span data-t="discountDesc">Motif de la réduction (affiché sur le devis)</span>
+                        </label>
+                        <input type="text" id="input-discount-desc" class="w-full p-3 border-2 border-slate-200 rounded-xl bg-white focus:border-rose-500 outline-none transition-colors" />
+                    </div>
+                </div>
+
                 <!-- Results & Actions -->
                 <div class="mt-8 bg-sky-50 rounded-2xl p-6 border border-sky-100 flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div class="space-y-1 text-center md:text-left">
-                        <p class="text-sky-800 text-sm font-semibold uppercase tracking-wider">
-                            <span data-t="nightlyRate">Tarif par Nuit</span>: <span id="display-nightly-rate">0.00</span>
-                        </p>
-                        <p class="text-4xl font-extrabold text-sky-950">
-                            <span data-t="total">Prix Total</span>: <span id="display-total-price">0.00</span>
-                        </p>
+                    <div class="flex flex-col gap-4 w-full md:w-auto">
+                        <!-- Nightly Details Box -->
+                        <div class="bg-white/60 p-4 rounded-xl border border-sky-100 shadow-sm min-w-[300px]">
+                            <p class="text-sky-800 text-sm font-semibold uppercase tracking-wider flex justify-between gap-8">
+                                <span id="label-nightly-rate" data-t="nightlyRate">Tarif par Nuit</span>
+                                <span id="display-nightly-rate" class="font-bold">0.00</span>
+                            </p>
+                            <p id="display-discount-night-row" class="text-rose-600 text-sm font-semibold uppercase tracking-wider flex justify-between gap-8 js-hidden mt-2">
+                                <span data-t="discountPerNight">Réduction / Nuit</span>
+                                <span>-<span id="display-discount-night-amount">0.00</span></span>
+                            </p>
+                            <p id="display-applied-nightly-row" class="text-emerald-700 text-sm font-bold uppercase tracking-wider flex justify-between gap-8 js-hidden mt-2 pt-2 border-t border-sky-200">
+                                <span data-t="appliedNightlyRate">Tarif Appliqué / Nuit</span>
+                                <span id="display-applied-nightly-rate">0.00</span>
+                            </p>
+                        </div>
+            
+                        <!-- Total Box -->
+                        <div class="px-2">
+                            <p class="text-4xl font-extrabold text-sky-950 flex flex-col md:flex-row md:items-baseline gap-2">
+                                <span data-t="total">Prix Total</span><span class="hidden md:inline">:</span> <span id="display-total-price">0.00</span>
+                            </p>
+                            <p id="display-discount-total-row" class="text-rose-600 text-sm font-semibold uppercase tracking-wider js-hidden mt-2">
+                                <span data-t="totalDiscount">Réduction Totale</span>: -<span id="display-discount-total-amount">0.00</span>
+                            </p>
+                        </div>
                     </div>
                     
-                    <button id="btn-print" class="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center gap-3 shadow-lg shadow-emerald-200 transition-all active:scale-95">
+                    <button id="btn-print" class="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center gap-3 shadow-lg shadow-emerald-200 transition-all active:scale-95 shrink-0">
                         <svg id="icon-print" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
                         <svg id="icon-loading" class="animate-spin js-hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
                         <span id="text-btn-print" data-t="generatePdf">Générer un Devis PDF</span>
@@ -163,7 +205,6 @@
     </main>
 
     <!-- PDF OVERLAY & PRINT AREA -->
-    <!-- This overlay handles the trick to let the camera snapshot the document flawlessly -->
     <div id="pdf-overlay" class="fixed inset-0 z-[9999] bg-slate-800/90 flex flex-col items-center overflow-y-auto pt-10 pb-20 opacity-0 pointer-events-none js-hidden">
         
         <div class="mb-6 flex items-center gap-3 bg-white text-sky-900 px-6 py-3 rounded-full shadow-xl font-bold text-lg animate-pulse">
@@ -224,15 +265,31 @@
             <!-- Print Pricing Totals -->
             <div class="flex justify-end">
                 <div class="w-1/2 bg-slate-50 p-6 rounded-xl border border-slate-200">
-                    <div class="flex justify-between mb-3 text-slate-600">
-                        <span data-t="nightlyRate">Tarif par Nuit</span>
+                    <div class="flex justify-between mb-2 text-slate-600">
+                        <span id="label-print-nightly-rate" data-t="nightlyRate">Tarif par Nuit</span>
                         <span class="font-semibold" id="print-nightly-rate"></span>
                     </div>
-                    <div class="flex justify-between border-t border-slate-200 pt-4 mt-2">
+                    <div id="print-discount-night-row" class="flex justify-between mb-2 text-rose-600 js-hidden">
+                        <span data-t="discountPerNight">Réduction / Nuit</span>
+                        <span class="font-semibold">-<span id="print-discount-night-amount"></span></span>
+                    </div>
+                    <div id="print-applied-night-row" class="flex justify-between mb-4 text-emerald-700 font-bold js-hidden pb-3 border-b border-slate-200">
+                        <span data-t="appliedNightlyRate">Tarif appliqué / Nuit</span>
+                        <span id="print-applied-nightly-rate"></span>
+                    </div>
+                    <div id="print-subtotal-row" class="flex justify-between mb-2 text-slate-600 js-hidden">
+                        <span data-t="subtotal">Sous-total</span>
+                        <span class="font-semibold" id="print-subtotal"></span>
+                    </div>
+                    <div id="print-discount-total-row" class="flex justify-between mb-3 text-rose-600 js-hidden">
+                        <span><span data-t="totalDiscount">Réduction Totale</span> <span id="print-discount-reason" class="text-xs italic ml-1"></span></span>
+                        <span class="font-semibold">-<span id="print-discount-total-amount"></span></span>
+                    </div>
+                    <div class="flex justify-between border-t border-slate-300 pt-4 mt-2">
                         <span class="text-2xl font-bold text-sky-900" data-t="total">Prix Total</span>
                         <span class="text-2xl font-black text-sky-900" id="print-total"></span>
                     </div>
-                    <p class="text-right text-xs text-slate-400 mt-2">Taxes incluses / Taxes included</p>
+                    <p class="text-right text-xs text-slate-400 mt-2" data-t="taxesIncluded">Taxes incluses / Taxes included</p>
                 </div>
             </div>
 
@@ -278,12 +335,28 @@
             { room: "Suite", occupancy: "Single (1 Guest)", plan: "Pension Complète (PC)*", mad: 1750.00, eur: 163.55 },
         ];
 
-        // Extract unique options for selects
         const rooms = [...new Set(pricingData.map(item => item.room))];
         const occupancies = [...new Set(pricingData.map(item => item.occupancy))];
         const ratePlans = [...new Set(pricingData.map(item => item.plan))];
 
-        // --- TRANSLATIONS ---
+        // --- DATA DICTIONARY (Translating internal string values) ---
+        const dataDict = {
+            "Standard Bungalow": { fr: "Bungalow Standard", en: "Standard Bungalow" },
+            "Bungalow with Sea View": { fr: "Bungalow Vue Mer", en: "Bungalow with Sea View" },
+            "Deluxe Bungalow": { fr: "Bungalow Deluxe", en: "Deluxe Bungalow" },
+            "Suite": { fr: "Suite", en: "Suite" },
+            "Double (2 Guests)": { fr: "Double (2 Personnes)", en: "Double (2 Guests)" },
+            "Single (1 Guest)": { fr: "Single (1 Personne)", en: "Single (1 Guest)" },
+            "Bed & Breakfast (BB)": { fr: "Chambre & Petit-déjeuner (BB)", en: "Bed & Breakfast (BB)" },
+            "Demi Pension (DP)": { fr: "Demi-Pension (DP)", en: "Half Board (HB)" },
+            "Pension Complète (PC)*": { fr: "Pension Complète (PC)*", en: "Full Board (FB)*" }
+        };
+
+        function tData(key) {
+            return dataDict[key] ? dataDict[key][state.lang] : key;
+        }
+
+        // --- UI TRANSLATIONS ---
         const translations = {
             en: {
                 appTitle: "Dakhla Camp Kitesurf - Reception",
@@ -293,21 +366,33 @@
                 roomType: "Room Type",
                 occupancy: "Occupancy",
                 ratePlan: "Rate Plan",
-                priceMad: "PRICE DIRECT MAD",
-                priceEur: "PRICE DIRECT EURO",
+                priceMad: "DIRECT PRICE MAD",
+                priceEur: "DIRECT PRICE EURO",
                 currency: "Select Currency",
                 arrival: "Arrival Date",
                 departure: "Departure Date",
                 nights: "Number of Nights",
                 clientName: "Client Name (Optional)",
+                clientPlaceholder: "Ex: John Doe",
                 total: "Total Price",
                 nightlyRate: "Nightly Rate",
-                generatePdf: "Generate PDF Devis",
+                generatePdf: "Generate PDF Quote",
                 generatingPdf: "Generating...",
                 devisTitle: "PRICE QUOTE",
                 date: "Date",
                 summary: "Stay Summary",
-                footerMsg: "Thank you for choosing Dakhla Camp Kitesurf. We look forward to welcoming you!"
+                footerMsg: "Thank you for choosing Dakhla Camp Kitesurf. We look forward to welcoming you!",
+                discount: "Discount",
+                fixed: "Fixed",
+                discountDesc: "Discount Reason (shown on quote)",
+                discountPlaceholder: "Ex: Loyal customer, Special offer...",
+                discountApplied: "Discount Applied",
+                discountPerNight: "Discount / Night",
+                totalDiscount: "Total Discount",
+                subtotal: "Subtotal",
+                taxesIncluded: "Taxes included",
+                baseNightlyRate: "Base Nightly Rate",
+                appliedNightlyRate: "Applied Nightly Rate"
             },
             fr: {
                 appTitle: "Dakhla Camp Kitesurf - Réception",
@@ -324,6 +409,7 @@
                 departure: "Date de départ",
                 nights: "Nombre de Nuits",
                 clientName: "Nom du Client (Optionnel)",
+                clientPlaceholder: "Ex: John Doe",
                 total: "Prix Total",
                 nightlyRate: "Tarif par Nuit",
                 generatePdf: "Générer un Devis PDF",
@@ -331,7 +417,18 @@
                 devisTitle: "DEVIS ESTIMATIF",
                 date: "Date",
                 summary: "Résumé du Séjour",
-                footerMsg: "Merci d'avoir choisi Dakhla Camp Kitesurf. Nous avons hâte de vous accueillir !"
+                footerMsg: "Merci d'avoir choisi Dakhla Camp Kitesurf. Nous avons hâte de vous accueillir !",
+                discount: "Réduction",
+                fixed: "Fixe",
+                discountDesc: "Motif de la réduction (affiché sur le devis)",
+                discountPlaceholder: "Ex: Client fidèle, Offre spéciale...",
+                discountApplied: "Réduction",
+                discountPerNight: "Réduction / Nuit",
+                totalDiscount: "Réduction Totale",
+                subtotal: "Sous-total",
+                taxesIncluded: "Taxes incluses",
+                baseNightlyRate: "Tarif de base / Nuit",
+                appliedNightlyRate: "Tarif Appliqué / Nuit"
             }
         };
 
@@ -346,6 +443,9 @@
             departureDate: '',
             nights: 1,
             clientName: '',
+            discountVal: 0,
+            discountType: 'percent',
+            discountDesc: '',
             isGenerating: false
         };
 
@@ -361,6 +461,9 @@
             arrivalInput: document.getElementById('input-arrival'),
             departureInput: document.getElementById('input-departure'),
             nightsInput: document.getElementById('input-nights'),
+            discountValInput: document.getElementById('input-discount-val'),
+            discountTypeSelect: document.getElementById('select-discount-type'),
+            discountDescInput: document.getElementById('input-discount-desc'),
             printBtn: document.getElementById('btn-print'),
             tableBody: document.getElementById('pricing-table-body'),
             pdfOverlay: document.getElementById('pdf-overlay')
@@ -368,11 +471,6 @@
 
         // --- INITIALIZATION ---
         function init() {
-            // Populate selects
-            populateSelect(els.roomSelect, rooms);
-            populateSelect(els.occupancySelect, occupancies);
-            populateSelect(els.planSelect, ratePlans);
-
             // Event Listeners
             els.langBtn.addEventListener('click', () => { state.lang = state.lang === 'en' ? 'fr' : 'en'; render(); });
             els.madBtn.addEventListener('click', () => { state.currency = 'MAD'; render(); });
@@ -385,18 +483,18 @@
             els.arrivalInput.addEventListener('change', handleArrival);
             els.departureInput.addEventListener('change', handleDeparture);
             els.nightsInput.addEventListener('input', handleNights);
+            
+            els.discountValInput.addEventListener('input', (e) => { state.discountVal = parseFloat(e.target.value) || 0; render(); });
+            els.discountTypeSelect.addEventListener('change', (e) => { state.discountType = e.target.value; render(); });
+            els.discountDescInput.addEventListener('input', (e) => { state.discountDesc = e.target.value; render(); });
 
             els.printBtn.addEventListener('click', generatePDF);
 
-            // First render
+            // Initial render
             render();
         }
 
         // --- HELPERS ---
-        function populateSelect(element, options) {
-            element.innerHTML = options.map(opt => `<option value="${opt}">${opt}</option>`).join('');
-        }
-
         function calculateNights(start, end) {
             if (!start || !end) return 0;
             const diffTime = new Date(end) - new Date(start);
@@ -461,22 +559,33 @@
 
         // --- RENDER LOGIC ---
         function render() {
-            // 1. Update Translations dynamically using data-t attributes
+            // 1. Update UI Labels dynamically
             document.querySelectorAll('[data-t]').forEach(el => {
                 const key = el.getAttribute('data-t');
                 if (translations[state.lang][key]) {
-                    // Update inner text, keeping child elements intact if they exist (like SVG inside buttons)
-                    // If it has children elements, only update the text nodes. Simpler: wrap text in span.
-                    if (el.tagName === 'SPAN' || el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'LABEL' || el.tagName === 'TH') {
+                    // Only update the text for specific tags so we don't overwrite icons
+                    if (['SPAN', 'H1', 'H2', 'LABEL', 'TH', 'OPTION', 'P'].includes(el.tagName)) {
                         el.innerText = translations[state.lang][key];
                     }
                 }
             });
 
-            // Update placeholder
-            els.clientInput.placeholder = state.lang === 'fr' ? "Ex: John Doe" : "Ex: John Doe";
+            // Update placeholders based on language
+            els.clientInput.placeholder = translations[state.lang].clientPlaceholder;
+            els.discountDescInput.placeholder = translations[state.lang].discountPlaceholder;
 
-            // 2. Update Currency Buttons visually
+            // 2. Re-populate Selects with TRANSLATED options
+            els.roomSelect.innerHTML = rooms.map(r => `<option value="${r}">${tData(r)}</option>`).join('');
+            els.occupancySelect.innerHTML = occupancies.map(o => `<option value="${o}">${tData(o)}</option>`).join('');
+            els.planSelect.innerHTML = ratePlans.map(p => `<option value="${p}">${tData(p)}</option>`).join('');
+            
+            // Re-apply selected state values
+            els.roomSelect.value = state.selectedRoom;
+            els.occupancySelect.value = state.selectedOccupancy;
+            els.planSelect.value = state.selectedPlan;
+            els.discountTypeSelect.value = state.discountType;
+
+            // 3. Update Currency Buttons visually
             if (state.currency === 'MAD') {
                 els.madBtn.className = "flex-1 py-3 px-4 rounded-xl border-2 font-bold transition-all border-sky-600 bg-sky-50 text-sky-800";
                 els.eurBtn.className = "flex-1 py-3 px-4 rounded-xl border-2 font-bold transition-all border-slate-200 text-slate-500 hover:bg-slate-50";
@@ -485,25 +594,62 @@
                 els.madBtn.className = "flex-1 py-3 px-4 rounded-xl border-2 font-bold transition-all border-slate-200 text-slate-500 hover:bg-slate-50";
             }
 
-            // 3. Keep inputs synced with state (in case logic changed them)
+            // Keep inputs synced with state
             els.arrivalInput.value = state.arrivalDate;
             els.departureInput.value = state.departureDate;
             els.departureInput.min = state.arrivalDate || '';
             els.nightsInput.value = state.nights;
-            els.roomSelect.value = state.selectedRoom;
-            els.occupancySelect.value = state.selectedOccupancy;
-            els.planSelect.value = state.selectedPlan;
 
             // 4. Calculate Total
             const currentPricing = pricingData.find(p => p.room === state.selectedRoom && p.occupancy === state.selectedOccupancy && p.plan === state.selectedPlan);
             const nightlyRate = currentPricing ? (state.currency === 'MAD' ? currentPricing.mad : currentPricing.eur) : 0;
-            const totalPrice = nightlyRate * (state.nights || 0);
+            
+            const subtotal = nightlyRate * (state.nights || 0);
+            let discountAmount = 0;
+            
+            if (state.discountVal > 0) {
+                if (state.discountType === 'percent') {
+                    discountAmount = subtotal * (state.discountVal / 100);
+                } else {
+                    discountAmount = state.discountVal; // Fixed amount in selected currency
+                }
+            }
+            if (discountAmount > subtotal) discountAmount = subtotal; // Prevent negative total
+            
+            const nightlyDiscountAmount = state.nights > 0 ? (discountAmount / state.nights) : discountAmount;
+            const appliedNightlyRate = Math.max(0, nightlyRate - nightlyDiscountAmount);
+            const totalPrice = subtotal - discountAmount;
 
-            // 5. Update UI values
+            // 5. Update Calculator UI values
             document.getElementById('display-nightly-rate').innerText = formatCurrency(nightlyRate, state.currency);
             document.getElementById('display-total-price').innerText = formatCurrency(totalPrice, state.currency);
+            
+            const displayDiscountNightRow = document.getElementById('display-discount-night-row');
+            const displayAppliedNightlyRow = document.getElementById('display-applied-nightly-row');
+            const displayDiscountTotalRow = document.getElementById('display-discount-total-row');
+            const labelNightlyRate = document.getElementById('label-nightly-rate');
 
-            // 6. Update Table
+            if (discountAmount > 0) {
+                displayDiscountNightRow.classList.remove('js-hidden');
+                displayAppliedNightlyRow.classList.remove('js-hidden');
+                displayDiscountTotalRow.classList.remove('js-hidden');
+                
+                document.getElementById('display-discount-night-amount').innerText = formatCurrency(nightlyDiscountAmount, state.currency);
+                document.getElementById('display-applied-nightly-rate').innerText = formatCurrency(appliedNightlyRate, state.currency);
+                document.getElementById('display-discount-total-amount').innerText = formatCurrency(discountAmount, state.currency);
+                
+                labelNightlyRate.setAttribute('data-t', 'baseNightlyRate');
+                labelNightlyRate.innerText = translations[state.lang].baseNightlyRate;
+            } else {
+                displayDiscountNightRow.classList.add('js-hidden');
+                displayAppliedNightlyRow.classList.add('js-hidden');
+                displayDiscountTotalRow.classList.add('js-hidden');
+                
+                labelNightlyRate.setAttribute('data-t', 'nightlyRate');
+                labelNightlyRate.innerText = translations[state.lang].nightlyRate;
+            }
+
+            // 6. Update Pricing Table (Using translated names for Room, Occ, Plan)
             let tableHTML = '';
             pricingData.forEach((row, idx) => {
                 const isFirstRoom = idx === 0 || pricingData[idx-1].room !== row.room;
@@ -511,9 +657,9 @@
                 
                 tableHTML += `
                     <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="p-4 align-top ${isFirstRoom ? 'font-bold text-slate-800' : 'text-transparent'}">${isFirstRoom ? row.room : '”'}</td>
-                        <td class="p-4 align-top ${isFirstOcc ? 'font-medium text-slate-700' : 'text-transparent'}">${isFirstOcc ? row.occupancy : '”'}</td>
-                        <td class="p-4 text-slate-600">${row.plan}</td>
+                        <td class="p-4 align-top ${isFirstRoom ? 'font-bold text-slate-800' : 'text-transparent'}">${isFirstRoom ? tData(row.room) : '”'}</td>
+                        <td class="p-4 align-top ${isFirstOcc ? 'font-medium text-slate-700' : 'text-transparent'}">${isFirstOcc ? tData(row.occupancy) : '”'}</td>
+                        <td class="p-4 text-slate-600">${tData(row.plan)}</td>
                         <td class="p-4 text-right font-semibold text-emerald-700">${formatCurrency(row.mad, 'MAD')}</td>
                         <td class="p-4 text-right font-semibold text-blue-700">${formatCurrency(row.eur, 'EUR')}</td>
                     </tr>
@@ -532,9 +678,10 @@
                 clientContainer.classList.add('js-hidden');
             }
 
-            document.getElementById('print-room').innerText = state.selectedRoom;
-            document.getElementById('print-occupancy').innerText = state.selectedOccupancy;
-            document.getElementById('print-plan').innerText = state.selectedPlan;
+            // Use the translated strings for the PDF
+            document.getElementById('print-room').innerText = tData(state.selectedRoom);
+            document.getElementById('print-occupancy').innerText = tData(state.selectedOccupancy);
+            document.getElementById('print-plan').innerText = tData(state.selectedPlan);
 
             const arrRow = document.getElementById('print-arrival-row');
             if (state.arrivalDate) {
@@ -550,6 +697,49 @@
 
             document.getElementById('print-nights').innerText = state.nights;
             document.getElementById('print-nightly-rate').innerText = formatCurrency(nightlyRate, state.currency);
+            
+            // PDF Discount & Subtotal handling
+            const printDiscountNightRow = document.getElementById('print-discount-night-row');
+            const printAppliedNightRow = document.getElementById('print-applied-night-row');
+            const printSubtotalRow = document.getElementById('print-subtotal-row');
+            const printDiscountTotalRow = document.getElementById('print-discount-total-row');
+            const labelPrintNightlyRate = document.getElementById('label-print-nightly-rate');
+            
+            if (discountAmount > 0) {
+                printDiscountNightRow.classList.remove('js-hidden');
+                document.getElementById('print-discount-night-amount').innerText = formatCurrency(nightlyDiscountAmount, state.currency);
+
+                printAppliedNightRow.classList.remove('js-hidden');
+                document.getElementById('print-applied-nightly-rate').innerText = formatCurrency(appliedNightlyRate, state.currency);
+
+                printSubtotalRow.classList.remove('js-hidden');
+                document.getElementById('print-subtotal').innerText = formatCurrency(subtotal, state.currency);
+                
+                printDiscountTotalRow.classList.remove('js-hidden');
+                document.getElementById('print-discount-total-amount').innerText = formatCurrency(discountAmount, state.currency);
+                
+                // Format the extra label to show percentage and/or description
+                let discountLabelExtra = "";
+                if (state.discountType === 'percent') {
+                    discountLabelExtra += ` (${state.discountVal}%)`;
+                }
+                if (state.discountDesc) {
+                    discountLabelExtra += discountLabelExtra ? ` - ${state.discountDesc}` : ` (${state.discountDesc})`;
+                }
+                document.getElementById('print-discount-reason').innerText = discountLabelExtra;
+
+                labelPrintNightlyRate.setAttribute('data-t', 'baseNightlyRate');
+                labelPrintNightlyRate.innerText = translations[state.lang].baseNightlyRate;
+            } else {
+                printDiscountNightRow.classList.add('js-hidden');
+                printAppliedNightRow.classList.add('js-hidden');
+                printSubtotalRow.classList.add('js-hidden');
+                printDiscountTotalRow.classList.add('js-hidden');
+
+                labelPrintNightlyRate.setAttribute('data-t', 'nightlyRate');
+                labelPrintNightlyRate.innerText = translations[state.lang].nightlyRate;
+            }
+            
             document.getElementById('print-total').innerText = formatCurrency(totalPrice, state.currency);
             
             // Generate Button State
