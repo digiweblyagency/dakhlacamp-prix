@@ -212,10 +212,11 @@
             <span data-t="generatingPdf">Génération en cours...</span>
         </div>
 
-        <div id="devis-print-area" class="w-[800px] min-h-[1050px] bg-white p-12 text-slate-900 font-sans shrink-0 relative">
+        <!-- FIXED HEIGHT 1-PAGE A4 CONTAINER: Reduced height to absolutely guarantee it fits on 1 page! -->
+        <div id="devis-print-area" class="w-[800px] h-[1050px] bg-white p-12 text-slate-900 font-sans shrink-0 relative flex flex-col box-border">
         
             <!-- Print Header -->
-            <div class="flex justify-between items-start border-b-4 border-sky-900 pb-8 mb-8">
+            <div class="flex justify-between items-start border-b-4 border-sky-900 pb-6 mb-6 shrink-0">
                 <div>
                     <h1 class="text-4xl font-black text-sky-900 uppercase tracking-tighter">Dakhla Camp</h1>
                     <p class="text-xl font-bold text-sky-700 tracking-widest mt-1">KITESURF</p>
@@ -224,68 +225,75 @@
                 <div class="text-right">
                     <h2 class="text-3xl font-bold text-slate-300 uppercase" data-t="devisTitle">DEVIS ESTIMATIF</h2>
                     <p class="mt-4 text-slate-600"><strong data-t="date">Date</strong>: <span id="print-date"></span></p>
-                    <p id="print-client-container" class="mt-1 text-slate-600 text-lg js-hidden"><strong>Client:</strong> <span id="print-client"></span></p>
+                    <p id="print-client-container" class="mt-1 text-slate-600 text-lg js-hidden"><strong data-t="client">Client:</strong> <span id="print-client"></span></p>
                 </div>
             </div>
 
             <!-- Print Body -->
-            <div class="mb-12">
-                <h3 class="text-xl font-bold border-b-2 border-slate-200 pb-2 mb-6 uppercase tracking-wider text-slate-700" data-t="summary">Résumé du Séjour</h3>
+            <div class="mb-6 shrink-0">
+                <h3 class="text-xl font-bold border-b-2 border-slate-200 pb-2 mb-4 uppercase tracking-wider text-slate-700" data-t="summary">Résumé du Séjour</h3>
                 
-                <table class="w-full text-left mb-8">
+                <table class="w-full text-left mb-6">
                     <tbody class="divide-y divide-slate-200">
                         <tr>
-                            <td class="py-4 font-semibold text-slate-600 w-1/3" data-t="roomType">Type de Chambre</td>
-                            <td class="py-4 font-bold text-lg" id="print-room"></td>
+                            <td class="py-3 font-semibold text-slate-600 w-1/3" data-t="roomType">Type de Chambre</td>
+                            <td class="py-3 font-bold text-lg" id="print-room"></td>
                         </tr>
                         <tr>
-                            <td class="py-4 font-semibold text-slate-600" data-t="occupancy">Occupation</td>
-                            <td class="py-4 font-bold text-lg" id="print-occupancy"></td>
+                            <td class="py-3 font-semibold text-slate-600" data-t="occupancy">Occupation</td>
+                            <td class="py-3 font-bold text-lg" id="print-occupancy"></td>
                         </tr>
                         <tr>
-                            <td class="py-4 font-semibold text-slate-600" data-t="ratePlan">Régime</td>
-                            <td class="py-4 font-bold text-lg" id="print-plan"></td>
+                            <td class="py-3 font-semibold text-slate-600" data-t="ratePlan">Régime</td>
+                            <td class="py-3 font-bold text-lg" id="print-plan"></td>
                         </tr>
                         <tr id="print-arrival-row" class="js-hidden">
-                            <td class="py-4 font-semibold text-slate-600" data-t="arrival">Date d'arrivée</td>
-                            <td class="py-4 font-bold text-lg" id="print-arrival"></td>
+                            <td class="py-3 font-semibold text-slate-600" data-t="arrival">Date d'arrivée</td>
+                            <td class="py-3 font-bold text-lg" id="print-arrival"></td>
                         </tr>
                         <tr id="print-departure-row" class="js-hidden">
-                            <td class="py-4 font-semibold text-slate-600" data-t="departure">Date de départ</td>
-                            <td class="py-4 font-bold text-lg" id="print-departure"></td>
+                            <td class="py-3 font-semibold text-slate-600" data-t="departure">Date de départ</td>
+                            <td class="py-3 font-bold text-lg" id="print-departure"></td>
                         </tr>
                         <tr>
-                            <td class="py-4 font-semibold text-slate-600" data-t="nights">Nombre de Nuits</td>
-                            <td class="py-4 font-bold text-lg" id="print-nights"></td>
+                            <td class="py-3 font-semibold text-slate-600" data-t="nights">Nombre de Nuits</td>
+                            <td class="py-3 font-bold text-lg" id="print-nights"></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
             <!-- Print Pricing Totals -->
-            <div class="flex justify-end">
-                <div class="w-1/2 bg-slate-50 p-6 rounded-xl border border-slate-200">
-                    <div class="flex justify-between mb-2 text-slate-600">
+            <div class="flex justify-end shrink-0">
+                <!-- WIDENED BOX: w-2/3 gives plenty of room for long discount reasons without wrapping weirdly -->
+                <div class="w-2/3 bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <div class="flex justify-between items-center mb-2 text-slate-600">
                         <span id="label-print-nightly-rate" data-t="nightlyRate">Tarif par Nuit</span>
                         <span class="font-semibold" id="print-nightly-rate"></span>
                     </div>
-                    <div id="print-discount-night-row" class="flex justify-between mb-2 text-rose-600 js-hidden">
+                    <div id="print-discount-night-row" class="flex justify-between items-center mb-2 text-rose-600 js-hidden">
                         <span data-t="discountPerNight">Réduction / Nuit</span>
                         <span class="font-semibold">-<span id="print-discount-night-amount"></span></span>
                     </div>
-                    <div id="print-applied-night-row" class="flex justify-between mb-4 text-emerald-700 font-bold js-hidden pb-3 border-b border-slate-200">
+                    <div id="print-applied-night-row" class="flex justify-between items-center mb-4 text-emerald-700 font-bold js-hidden pb-3 border-b border-slate-200">
                         <span data-t="appliedNightlyRate">Tarif appliqué / Nuit</span>
                         <span id="print-applied-nightly-rate"></span>
                     </div>
-                    <div id="print-subtotal-row" class="flex justify-between mb-2 text-slate-600 js-hidden">
+                    <div id="print-subtotal-row" class="flex justify-between items-center mb-2 text-slate-600 js-hidden">
                         <span data-t="subtotal">Sous-total</span>
                         <span class="font-semibold" id="print-subtotal"></span>
                     </div>
-                    <div id="print-discount-total-row" class="flex justify-between mb-3 text-rose-600 js-hidden">
-                        <span><span data-t="totalDiscount">Réduction Totale</span> <span id="print-discount-reason" class="text-xs italic ml-1"></span></span>
-                        <span class="font-semibold">-<span id="print-discount-total-amount"></span></span>
+                    
+                    <!-- IMPROVED DISCOUNT ROW: Flex column on the left ensures long reasons flow neatly below the label -->
+                    <div id="print-discount-total-row" class="flex justify-between items-end mb-3 text-rose-600 js-hidden gap-4">
+                        <span class="flex flex-col">
+                            <span data-t="totalDiscount" class="font-medium">Réduction Totale</span>
+                            <span id="print-discount-reason" class="text-xs italic text-rose-500 mt-0.5"></span>
+                        </span>
+                        <span class="font-bold whitespace-nowrap text-lg">-<span id="print-discount-total-amount"></span></span>
                     </div>
-                    <div class="flex justify-between border-t border-slate-300 pt-4 mt-2">
+
+                    <div class="flex justify-between items-center border-t border-slate-300 pt-4 mt-2">
                         <span class="text-2xl font-bold text-sky-900" data-t="total">Prix Total</span>
                         <span class="text-2xl font-black text-sky-900" id="print-total"></span>
                     </div>
@@ -293,8 +301,8 @@
                 </div>
             </div>
 
-            <!-- Print Footer -->
-            <div class="mt-24 pt-8 border-t border-slate-200 text-center text-slate-500 text-sm">
+            <!-- Print Footer - mt-auto guarantees it is stuck flush to the bottom of page 1 and cannot spill! -->
+            <div class="mt-auto pt-6 border-t border-slate-200 text-center text-slate-500 text-sm shrink-0">
                 <p data-t="footerMsg">Merci d'avoir choisi Dakhla Camp Kitesurf. Nous avons hâte de vous accueillir !</p>
                 <p class="mt-2 font-semibold">www.dakhlacamp.com</p>
             </div>
@@ -372,6 +380,7 @@
                 arrival: "Arrival Date",
                 departure: "Departure Date",
                 nights: "Number of Nights",
+                client: "Client:",
                 clientName: "Client Name (Optional)",
                 clientPlaceholder: "Ex: John Doe",
                 total: "Total Price",
@@ -408,6 +417,7 @@
                 arrival: "Date d'arrivée",
                 departure: "Date de départ",
                 nights: "Nombre de Nuits",
+                client: "Client :",
                 clientName: "Nom du Client (Optionnel)",
                 clientPlaceholder: "Ex: John Doe",
                 total: "Prix Total",
@@ -559,14 +569,11 @@
 
         // --- RENDER LOGIC ---
         function render() {
-            // 1. Update UI Labels dynamically
+            // 1. Update ALL UI Labels dynamically (Fixed the bug that was missing table data cells)
             document.querySelectorAll('[data-t]').forEach(el => {
                 const key = el.getAttribute('data-t');
                 if (translations[state.lang][key]) {
-                    // Only update the text for specific tags so we don't overwrite icons
-                    if (['SPAN', 'H1', 'H2', 'LABEL', 'TH', 'OPTION', 'P'].includes(el.tagName)) {
-                        el.innerText = translations[state.lang][key];
-                    }
+                    el.innerText = translations[state.lang][key];
                 }
             });
 
@@ -778,10 +785,14 @@
             // 2. Wait 500ms to guarantee browser painting
             setTimeout(() => {
                 const element = document.getElementById('devis-print-area');
-                const fileName = `Devis_Dakhla_Camp_${state.clientName ? state.clientName.replace(/\s+/g, '_') : 'Client'}.pdf`;
+                
+                // Format the file name: Devis_DakhlaCamp_[Name]_[RoomType].pdf
+                const safeClientName = state.clientName ? `_${state.clientName.replace(/\s+/g, '_')}` : '';
+                const safeRoomName = `_${state.selectedRoom.replace(/\s+/g, '_')}`;
+                const fileName = `Devis_DakhlaCamp${safeClientName}${safeRoomName}.pdf`;
 
                 const opt = {
-                    margin:       0,
+                    margin:       [0, 0, 0, 0],
                     filename:     fileName,
                     image:        { type: 'jpeg', quality: 1 },
                     html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
