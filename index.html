@@ -11,49 +11,58 @@
     <style>
         /* Hide elements before JS loads to prevent flashing */
         .js-hidden { display: none !important; }
-        /* Smooth fade for the PDF overlay */
-        #pdf-overlay { transition: opacity 0.3s ease; }
+        /* Smooth fade for overlays */
+        .fade-enter { transition: opacity 0.3s ease; }
+        /* Custom scrollbar for modal */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
 
     <!-- HEADER -->
-    <header class="bg-sky-900 text-white p-4 shadow-md flex justify-between items-center sticky top-0 z-10 print:hidden">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+    <header class="bg-sky-900 text-white p-4 shadow-md flex flex-col sm:flex-row flex-wrap justify-between items-center sticky top-0 z-10 print:hidden gap-4">
+        <div class="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-start">
+            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shrink-0">
                 <span class="text-sky-900 font-bold text-xl">DC</span>
             </div>
-            <h1 class="text-2xl font-bold tracking-wide" data-t="appTitle">Dakhla Camp Kitesurf - Réception</h1>
+            <h1 class="text-xl sm:text-2xl font-bold tracking-wide text-center sm:text-left" data-t="appTitle">Dakhla Camp Kitesurf - Réception</h1>
         </div>
-        <button id="btn-lang" class="flex items-center gap-2 bg-sky-800 hover:bg-sky-700 px-4 py-2 rounded-lg transition-colors border border-sky-600 font-medium">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
-            <span data-t="switchLang">Switch to English</span>
-        </button>
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+            <button id="btn-open-multi" class="w-full sm:w-auto bg-indigo-500 hover:bg-indigo-400 text-white px-4 py-2.5 rounded-lg font-bold flex items-center justify-center gap-2 shadow-lg shadow-indigo-900/20 transition-all active:scale-95 text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span data-t="multiRoomBtn">Devis Multi-Chambres</span>
+            </button>
+            <button id="btn-lang" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-sky-800 hover:bg-sky-700 px-4 py-2.5 rounded-lg transition-colors border border-sky-600 font-medium text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+                <span data-t="switchLang">Switch to English</span>
+            </button>
+        </div>
     </header>
 
-    <!-- MAIN APP -->
-    <main class="p-6 max-w-7xl mx-auto space-y-8 print:hidden">
+    <!-- MAIN APP (SINGLE ROOM MODE) -->
+    <main class="p-3 sm:p-6 max-w-7xl mx-auto space-y-6 sm:space-y-8 print:hidden">
         
         <!-- CALCULATOR SECTION -->
         <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
             <div class="bg-slate-100 p-4 border-b border-slate-200 flex items-center gap-2">
-                <svg class="text-sky-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16.01" y1="10" y2="10"/><line x1="12" x2="12.01" y1="10" y2="10"/><line x1="8" x2="8.01" y1="10" y2="10"/><line x1="16" x2="16.01" y1="14" y2="14"/><line x1="12" x2="12.01" y1="14" y2="14"/><line x1="8" x2="8.01" y1="14" y2="14"/><line x1="16" x2="16.01" y1="18" y2="18"/><line x1="12" x2="12.01" y1="18" y2="18"/><line x1="8" x2="8.01" y1="18" y2="18"/></svg>
-                <h2 class="text-lg font-bold text-slate-800" data-t="tabCalculator">Calculateur de Devis</h2>
+                <svg class="text-sky-600 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16.01" y1="10" y2="10"/><line x1="12" x2="12.01" y1="10" y2="10"/><line x1="8" x2="8.01" y1="10" y2="10"/><line x1="16" x2="16.01" y1="14" y2="14"/><line x1="12" x2="12.01" y1="14" y2="14"/><line x1="8" x2="8.01" y1="14" y2="14"/><line x1="16" x2="16.01" y1="18" y2="18"/><line x1="12" x2="12.01" y1="18" y2="18"/><line x1="8" x2="8.01" y1="18" y2="18"/></svg>
+                <h2 class="text-base sm:text-lg font-bold text-slate-800" data-t="tabCalculator">Calculateur de Devis (Chambre Unique)</h2>
             </div>
             
-            <div class="p-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                    
-                    <!-- Currency & Name -->
-                    <div class="col-span-1 lg:col-span-4 grid grid-cols-1 md:grid-cols-2 gap-6 pb-4 border-b border-slate-100">
+            <div class="p-4 sm:p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6">
+                    <div class="col-span-1 lg:col-span-4 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 pb-4 border-b border-slate-100">
                         <div class="space-y-2">
                             <label class="text-sm font-semibold text-slate-600 flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
                                 <span data-t="currency">Sélectionner la Devise</span>
                             </label>
                             <div class="flex gap-2">
-                                <button id="btn-mad" class="flex-1 py-3 px-4 rounded-xl border-2 font-bold transition-all border-sky-600 bg-sky-50 text-sky-800">MAD (Dirham)</button>
-                                <button id="btn-eur" class="flex-1 py-3 px-4 rounded-xl border-2 font-bold transition-all border-slate-200 text-slate-500 hover:bg-slate-50">EUR (€)</button>
+                                <button id="btn-mad" class="flex-1 py-3 px-2 sm:px-4 rounded-xl border-2 font-bold transition-all border-sky-600 bg-sky-50 text-sky-800 text-sm sm:text-base">MAD (Dirham)</button>
+                                <button id="btn-eur" class="flex-1 py-3 px-2 sm:px-4 rounded-xl border-2 font-bold transition-all border-slate-200 text-slate-500 hover:bg-slate-50 text-sm sm:text-base">EUR (€)</button>
                             </div>
                         </div>
                         <div class="space-y-2">
@@ -62,7 +71,6 @@
                         </div>
                     </div>
 
-                    <!-- Room Selectors -->
                     <div class="space-y-2">
                         <label class="text-sm font-semibold text-slate-600 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
@@ -88,8 +96,7 @@
                     </div>
                 </div>
 
-                <!-- Dates & Nights -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 p-4 bg-slate-50 border border-slate-200 rounded-2xl">
                     <div class="space-y-2">
                         <label class="text-sm font-semibold text-slate-600 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
@@ -115,8 +122,7 @@
                     </div>
                 </div>
 
-                <!-- Discount Section -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 p-4 bg-rose-50 border border-rose-100 rounded-2xl">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 p-4 bg-rose-50 border border-rose-100 rounded-2xl">
                     <div class="space-y-2">
                         <label class="text-sm font-semibold text-slate-600 flex items-center gap-2">
                             <svg class="text-rose-500" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><circle cx="12" cy="12" r="4"/></svg>
@@ -138,37 +144,34 @@
                     </div>
                 </div>
 
-                <!-- Results & Actions -->
-                <div class="mt-8 bg-sky-50 rounded-2xl p-6 border border-sky-100 flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div class="flex flex-col gap-4 w-full md:w-auto">
-                        <!-- Nightly Details Box -->
-                        <div class="bg-white/60 p-4 rounded-xl border border-sky-100 shadow-sm min-w-[300px]">
-                            <p class="text-sky-800 text-sm font-semibold uppercase tracking-wider flex justify-between gap-8">
+                <div class="mt-8 bg-sky-50 rounded-2xl p-4 sm:p-6 border border-sky-100 flex flex-col lg:flex-row items-center justify-between gap-6">
+                    <div class="flex flex-col gap-4 w-full lg:w-auto">
+                        <div class="bg-white/60 p-4 rounded-xl border border-sky-100 shadow-sm w-full lg:min-w-[300px]">
+                            <p class="text-sky-800 text-sm font-semibold uppercase tracking-wider flex justify-between gap-4 sm:gap-8">
                                 <span id="label-nightly-rate" data-t="nightlyRate">Tarif par Nuit</span>
-                                <span id="display-nightly-rate" class="font-bold">0.00</span>
+                                <span id="display-nightly-rate" class="font-bold text-right">0.00</span>
                             </p>
-                            <p id="display-discount-night-row" class="text-rose-600 text-sm font-semibold uppercase tracking-wider flex justify-between gap-8 js-hidden mt-2">
+                            <p id="display-discount-night-row" class="text-rose-600 text-sm font-semibold uppercase tracking-wider flex justify-between gap-4 sm:gap-8 js-hidden mt-2">
                                 <span data-t="discountPerNight">Réduction / Nuit</span>
-                                <span>-<span id="display-discount-night-amount">0.00</span></span>
+                                <span class="text-right">-<span id="display-discount-night-amount">0.00</span></span>
                             </p>
-                            <p id="display-applied-nightly-row" class="text-emerald-700 text-sm font-bold uppercase tracking-wider flex justify-between gap-8 js-hidden mt-2 pt-2 border-t border-sky-200">
+                            <p id="display-applied-nightly-row" class="text-emerald-700 text-sm font-bold uppercase tracking-wider flex justify-between gap-4 sm:gap-8 js-hidden mt-2 pt-2 border-t border-sky-200">
                                 <span data-t="appliedNightlyRate">Tarif Appliqué / Nuit</span>
-                                <span id="display-applied-nightly-rate">0.00</span>
+                                <span id="display-applied-nightly-rate" class="text-right">0.00</span>
                             </p>
                         </div>
             
-                        <!-- Total Box -->
-                        <div class="px-2">
-                            <p class="text-4xl font-extrabold text-sky-950 flex flex-col md:flex-row md:items-baseline gap-2">
-                                <span data-t="total">Prix Total</span><span class="hidden md:inline">:</span> <span id="display-total-price">0.00</span>
+                        <div class="px-2 w-full flex flex-col items-center lg:items-start text-center lg:text-left">
+                            <p class="text-3xl sm:text-4xl font-extrabold text-sky-950 flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2">
+                                <span data-t="total">Prix Total</span><span class="hidden sm:inline">:</span> <span id="display-total-price">0.00</span>
                             </p>
-                            <p id="display-discount-total-row" class="text-rose-600 text-sm font-semibold uppercase tracking-wider js-hidden mt-2">
-                                <span data-t="totalDiscount">Réduction Totale</span>: -<span id="display-discount-total-amount">0.00</span>
+                            <p id="display-discount-total-row" class="text-rose-600 text-sm font-semibold uppercase tracking-wider js-hidden mt-2 flex flex-col sm:flex-row sm:gap-2">
+                                <span data-t="totalDiscount">Réduction Totale</span><span class="hidden sm:inline">:</span> <span>-<span id="display-discount-total-amount">0.00</span></span>
                             </p>
                         </div>
                     </div>
                     
-                    <button id="btn-print" class="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center gap-3 shadow-lg shadow-emerald-200 transition-all active:scale-95 shrink-0">
+                    <button id="btn-print" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base sm:text-lg flex items-center justify-center gap-3 shadow-lg shadow-emerald-200 transition-all active:scale-95 shrink-0 w-full lg:w-auto">
                         <svg id="icon-print" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
                         <svg id="icon-loading" class="animate-spin js-hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
                         <span id="text-btn-print" data-t="generatePdf">Générer un Devis PDF</span>
@@ -180,8 +183,8 @@
         <!-- PRICING TABLE SECTION -->
         <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
             <div class="bg-slate-100 p-4 border-b border-slate-200 flex items-center gap-2">
-                <svg class="text-sky-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="3" x2="21" y1="15" y2="15"/><line x1="9" x2="9" y1="3" y2="21"/><line x1="15" x2="15" y1="3" y2="21"/></svg>
-                <h2 class="text-lg font-bold text-slate-800" data-t="tabPrices">Liste des Prix</h2>
+                <svg class="text-sky-600 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="3" x2="21" y1="15" y2="15"/><line x1="9" x2="9" y1="3" y2="21"/><line x1="15" x2="15" y1="3" y2="21"/></svg>
+                <h2 class="text-base sm:text-lg font-bold text-slate-800" data-t="tabPrices">Liste des Prix</h2>
             </div>
             
             <div class="overflow-x-auto">
@@ -204,18 +207,162 @@
 
     </main>
 
-    <!-- PDF OVERLAY & PRINT AREA -->
+    <!-- MULTI-ROOM MODAL (POPUP) - FULLY EDITABLE -->
+    <div id="multi-room-modal" class="fixed inset-0 bg-slate-900/80 z-40 flex items-center justify-center p-2 sm:p-4 js-hidden fade-enter opacity-0 pointer-events-none print:hidden">
+        <div class="bg-white sm:rounded-2xl w-full h-full sm:h-auto max-w-6xl max-h-screen sm:max-h-[95vh] flex flex-col shadow-2xl">
+            <!-- Modal Header -->
+            <div class="p-4 sm:p-6 border-b border-slate-200 flex justify-between items-center bg-slate-50 sm:rounded-t-2xl shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="bg-indigo-100 p-2 rounded-lg text-indigo-700 hidden sm:block">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-bold text-slate-800" data-t="multiRoomTitle">Créateur Devis Multi-Chambres</h2>
+                </div>
+                <button id="btn-close-multi" class="text-slate-400 hover:text-rose-500 transition-colors p-2 bg-white rounded-full shadow-sm hover:bg-rose-50 shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+
+            <!-- Modal Body (Scrollable) -->
+            <div class="p-4 sm:p-6 overflow-y-auto flex-1 flex flex-col gap-6 bg-white">
+                
+                <div class="bg-indigo-50/30 border-2 border-indigo-100 rounded-xl p-4 sm:p-5 shadow-sm shrink-0">
+                    <h3 class="font-bold text-indigo-900 mb-4 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        <span data-t="groupSettings">Paramètres du Groupe</span>
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                        <div class="sm:col-span-2 space-y-2">
+                            <label class="text-xs font-semibold text-slate-600 uppercase" data-t="currency">Devise</label>
+                            <div class="flex gap-2 h-10">
+                                <button id="btn-mr-mad" class="flex-1 rounded-lg border-2 font-bold text-sm transition-all border-indigo-600 bg-indigo-50 text-indigo-800">MAD</button>
+                                <button id="btn-mr-eur" class="flex-1 rounded-lg border-2 font-bold text-sm transition-all border-slate-200 text-slate-500 hover:bg-slate-50">EUR</button>
+                            </div>
+                        </div>
+                        <div class="sm:col-span-2 lg:col-span-3 space-y-2">
+                            <label class="text-xs font-semibold text-slate-600 uppercase" data-t="groupName">Nom du Groupe / Client</label>
+                            <input type="text" id="mr-input-client" class="w-full h-10 px-3 border-2 border-slate-200 rounded-lg bg-white focus:border-indigo-500 outline-none text-sm" />
+                        </div>
+                        <div class="sm:col-span-1 lg:col-span-2 space-y-2">
+                            <label class="text-xs font-semibold text-slate-600 uppercase" data-t="arrival">Arrivée</label>
+                            <input type="date" id="mr-input-arrival" class="w-full h-10 px-3 border-2 border-slate-200 rounded-lg bg-white focus:border-indigo-500 outline-none text-sm" />
+                        </div>
+                        <div class="sm:col-span-1 lg:col-span-2 space-y-2">
+                            <label class="text-xs font-semibold text-slate-600 uppercase" data-t="departure">Départ</label>
+                            <input type="date" id="mr-input-departure" class="w-full h-10 px-3 border-2 border-slate-200 rounded-lg bg-white focus:border-indigo-500 outline-none text-sm" />
+                        </div>
+                        <div class="sm:col-span-2 lg:col-span-1 space-y-2">
+                            <label class="text-xs font-semibold text-slate-600 uppercase" data-t="nights">Nuits</label>
+                            <input type="number" id="mr-input-nights" min="1" value="1" class="w-full h-10 px-3 border-2 border-slate-200 rounded-lg bg-white focus:border-indigo-500 outline-none font-bold text-indigo-700 text-center" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Room Form -->
+                <div class="bg-white border-2 border-slate-100 rounded-xl p-4 sm:p-5 shadow-sm shrink-0">
+                    <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2">
+                        <svg class="text-emerald-500" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span data-t="addRoom">Ajouter une chambre au devis</span>
+                    </h3>
+                    <div class="flex flex-col lg:flex-row gap-4 items-stretch lg:items-end">
+                        <div class="w-full lg:w-24">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1" data-t="qty">Qté</label>
+                            <input type="number" id="mr-input-qty" min="1" value="1" class="w-full p-3 lg:p-2.5 border-2 border-slate-200 rounded-lg focus:border-indigo-500 outline-none font-bold text-center" />
+                        </div>
+                        <div class="w-full lg:flex-1">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1" data-t="roomType">Type</label>
+                            <select id="mr-select-room" class="w-full p-3 lg:p-2.5 border-2 border-slate-200 rounded-lg focus:border-indigo-500 outline-none text-sm"></select>
+                        </div>
+                        <div class="w-full lg:flex-1">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1" data-t="occupancy">Occupation</label>
+                            <select id="mr-select-occupancy" class="w-full p-3 lg:p-2.5 border-2 border-slate-200 rounded-lg focus:border-indigo-500 outline-none text-sm"></select>
+                        </div>
+                        <div class="w-full lg:flex-1">
+                            <label class="block text-xs font-semibold text-slate-500 mb-1" data-t="ratePlan">Régime</label>
+                            <select id="mr-select-plan" class="w-full p-3 lg:p-2.5 border-2 border-slate-200 rounded-lg focus:border-indigo-500 outline-none text-sm"></select>
+                        </div>
+                        <button id="btn-mr-add" class="w-full lg:w-auto bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 lg:py-2.5 rounded-lg font-bold transition-colors whitespace-nowrap mt-2 lg:mt-0">
+                            + <span data-t="addBtn">Ajouter</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- FULLY EDITABLE CART TABLE -->
+                <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm shrink-0">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm min-w-[800px]">
+                            <thead class="bg-slate-100 text-slate-600 border-b border-slate-200">
+                                <tr>
+                                    <th class="p-3 font-bold uppercase tracking-wider w-20 text-center" data-t="qty">Qté</th>
+                                    <th class="p-3 font-bold uppercase tracking-wider" data-t="descriptionEditable">Description (Modifiable)</th>
+                                    <th class="p-3 font-bold uppercase tracking-wider text-right w-32" data-t="unitPrice">Prix/Nuit</th>
+                                    <th class="p-3 font-bold uppercase tracking-wider text-right w-32" data-t="totalCol">Total</th>
+                                    <th class="p-3 w-16 text-center"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="mr-cart-body" class="divide-y divide-slate-100 bg-white">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 p-4 sm:p-5 bg-rose-50 border border-rose-100 rounded-xl shrink-0">
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-slate-600 flex items-center gap-2">
+                            <svg class="text-rose-500" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><circle cx="12" cy="12" r="4"/></svg>
+                            <span data-t="discountGroup">Réduction (Groupe)</span>
+                        </label>
+                        <div class="flex h-10 sm:h-12">
+                            <input type="number" id="mr-input-discount-val" min="0" value="0" class="w-full px-3 border-2 border-r-0 border-slate-200 rounded-l-lg bg-white focus:border-rose-500 outline-none font-bold" />
+                            <select id="mr-select-discount-type" class="px-3 border-2 border-slate-200 rounded-r-lg bg-slate-50 focus:border-rose-500 outline-none font-semibold text-slate-700">
+                                <option value="percent">%</option>
+                                <option value="fixed" data-t="fixed">Fixe</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="space-y-2 md:col-span-2">
+                        <label class="text-sm font-semibold text-slate-600 flex items-center gap-2">
+                            <span data-t="discountDesc">Motif de la réduction (affiché sur le devis)</span>
+                        </label>
+                        <input type="text" id="mr-input-discount-desc" class="w-full h-10 sm:h-12 px-3 border-2 border-slate-200 rounded-lg bg-white focus:border-rose-500 outline-none" />
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer (Totals & Print) -->
+            <div class="p-4 sm:p-6 border-t border-slate-200 bg-slate-50 sm:rounded-b-2xl flex flex-col md:flex-row justify-between items-center gap-6 shrink-0">
+                <div class="text-center lg:text-left flex-1 w-full flex flex-col items-center lg:items-start">
+                    <p class="text-slate-600 text-sm font-semibold uppercase tracking-wider flex justify-between w-full max-w-xs mb-1">
+                        <span data-t="subtotal">Sous-total</span> <span id="mr-display-subtotal">0.00</span>
+                    </p>
+                    <p id="mr-display-discount-row" class="text-rose-600 text-sm font-semibold uppercase tracking-wider flex justify-between w-full max-w-xs js-hidden mb-2">
+                        <span data-t="totalDiscount">Réduction Totale</span> <span>-<span id="mr-display-discount">0.00</span></span>
+                    </p>
+                    <p class="text-2xl sm:text-3xl font-extrabold text-indigo-950 flex justify-between w-full max-w-xs mt-1 border-t border-slate-200 pt-2">
+                        <span data-t="total">Prix Total</span> <span id="mr-display-total">0.00</span>
+                    </p>
+                </div>
+                
+                <button id="btn-mr-print" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base sm:text-lg flex items-center justify-center gap-3 shadow-lg shadow-indigo-200 transition-all active:scale-95 shrink-0 w-full md:w-auto">
+                    <svg id="icon-mr-print" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+                    <svg id="icon-mr-loading" class="animate-spin js-hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+                    <span id="text-btn-mr-print" data-t="generatePdf">Générer un Devis PDF</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 1. SINGLE ROOM PDF OVERLAY & PRINT AREA -->
     <div id="pdf-overlay" class="fixed inset-0 z-[9999] bg-slate-800/90 flex flex-col items-center overflow-y-auto pt-10 pb-20 opacity-0 pointer-events-none js-hidden">
-        
         <div class="mb-6 flex items-center gap-3 bg-white text-sky-900 px-6 py-3 rounded-full shadow-xl font-bold text-lg animate-pulse">
             <svg class="animate-spin" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
             <span data-t="generatingPdf">Génération en cours...</span>
         </div>
 
-        <!-- FIXED HEIGHT 1-PAGE A4 CONTAINER: Reduced height to absolutely guarantee it fits on 1 page! -->
         <div id="devis-print-area" class="w-[800px] h-[1050px] bg-white p-12 text-slate-900 font-sans shrink-0 relative flex flex-col box-border">
-        
-            <!-- Print Header -->
             <div class="flex justify-between items-start border-b-4 border-sky-900 pb-6 mb-6 shrink-0">
                 <div>
                     <h1 class="text-4xl font-black text-sky-900 uppercase tracking-tighter">Dakhla Camp</h1>
@@ -229,80 +376,111 @@
                 </div>
             </div>
 
-            <!-- Print Body -->
             <div class="mb-6 shrink-0">
                 <h3 class="text-xl font-bold border-b-2 border-slate-200 pb-2 mb-4 uppercase tracking-wider text-slate-700" data-t="summary">Résumé du Séjour</h3>
-                
                 <table class="w-full text-left mb-6">
                     <tbody class="divide-y divide-slate-200">
+                        <tr><td class="py-3 font-semibold text-slate-600 w-1/3" data-t="roomType">Type de Chambre</td><td class="py-3 font-bold text-lg" id="print-room"></td></tr>
+                        <tr><td class="py-3 font-semibold text-slate-600" data-t="occupancy">Occupation</td><td class="py-3 font-bold text-lg" id="print-occupancy"></td></tr>
+                        <tr><td class="py-3 font-semibold text-slate-600" data-t="ratePlan">Régime</td><td class="py-3 font-bold text-lg" id="print-plan"></td></tr>
+                        <tr id="print-arrival-row" class="js-hidden"><td class="py-3 font-semibold text-slate-600" data-t="arrival">Date d'arrivée</td><td class="py-3 font-bold text-lg" id="print-arrival"></td></tr>
+                        <tr id="print-departure-row" class="js-hidden"><td class="py-3 font-semibold text-slate-600" data-t="departure">Date de départ</td><td class="py-3 font-bold text-lg" id="print-departure"></td></tr>
+                        <tr><td class="py-3 font-semibold text-slate-600" data-t="nights">Nombre de Nuits</td><td class="py-3 font-bold text-lg" id="print-nights"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex justify-end shrink-0">
+                <div class="w-2/3 bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <div class="flex justify-between items-center mb-2 text-slate-600"><span id="label-print-nightly-rate" data-t="nightlyRate">Tarif par Nuit</span><span class="font-semibold" id="print-nightly-rate"></span></div>
+                    <div id="print-discount-night-row" class="flex justify-between items-center mb-2 text-rose-600 js-hidden"><span data-t="discountPerNight">Réduction / Nuit</span><span class="font-semibold">-<span id="print-discount-night-amount"></span></span></div>
+                    <div id="print-applied-night-row" class="flex justify-between items-center mb-4 text-emerald-700 font-bold js-hidden pb-3 border-b border-slate-200"><span data-t="appliedNightlyRate">Tarif appliqué / Nuit</span><span id="print-applied-nightly-rate"></span></div>
+                    <div id="print-subtotal-row" class="flex justify-between items-center mb-2 text-slate-600 js-hidden"><span data-t="subtotal">Sous-total</span><span class="font-semibold" id="print-subtotal"></span></div>
+                    <div id="print-discount-total-row" class="flex justify-between items-end mb-3 text-rose-600 js-hidden gap-4"><span class="flex flex-col"><span data-t="totalDiscount" class="font-medium">Réduction Totale</span><span id="print-discount-reason" class="text-xs italic text-rose-500 mt-0.5"></span></span><span class="font-bold whitespace-nowrap text-lg">-<span id="print-discount-total-amount"></span></span></div>
+                    <div class="flex justify-between items-center border-t border-slate-300 pt-4 mt-2"><span class="text-2xl font-bold text-sky-900" data-t="total">Prix Total</span><span class="text-2xl font-black text-sky-900" id="print-total"></span></div>
+                    <p class="text-right text-xs text-slate-400 mt-2" data-t="taxesIncluded">Taxes incluses / Taxes included</p>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-6 border-t border-slate-200 text-center text-slate-500 text-sm shrink-0">
+                <p data-t="footerMsg">Merci d'avoir choisi Dakhla Camp Kitesurf. Nous avons hâte de vous accueillir !</p>
+                <p class="mt-2 font-semibold">www.dakhlacamp.com</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MULTI ROOM PDF OVERLAY & PRINT AREA -->
+    <div id="pdf-overlay-multi" class="fixed inset-0 z-[9999] bg-slate-800/90 flex flex-col items-center overflow-y-auto pt-10 pb-20 opacity-0 pointer-events-none js-hidden">
+        <div class="mb-6 flex items-center gap-3 bg-white text-indigo-900 px-6 py-3 rounded-full shadow-xl font-bold text-lg animate-pulse">
+            <svg class="animate-spin" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+            <span data-t="generatingPdf">Génération en cours...</span>
+        </div>
+
+        <div id="devis-print-area-multi" class="w-[800px] bg-white p-12 text-slate-900 font-sans shrink-0 relative flex flex-col box-border">
+            
+            <div class="flex justify-between items-start border-b-4 border-indigo-900 pb-6 mb-6 shrink-0">
+                <div>
+                    <h1 class="text-4xl font-black text-indigo-900 uppercase tracking-tighter">Dakhla Camp</h1>
+                    <p class="text-xl font-bold text-indigo-700 tracking-widest mt-1">KITESURF</p>
+                    <p class="text-slate-500 mt-2 text-sm">PK 28 Route El Argoub<br/>Dakhla, Morocco</p>
+                </div>
+                <div class="text-right">
+                    <h2 class="text-3xl font-bold text-slate-300 uppercase" data-t="devisTitleMulti">DEVIS MULTI-CHAMBRES</h2>
+                    <p class="mt-4 text-slate-600"><strong data-t="date">Date</strong>: <span id="print-multi-date"></span></p>
+                    <p id="print-multi-client-container" class="mt-1 text-slate-600 text-lg js-hidden"><strong data-t="client">Client:</strong> <span id="print-multi-client"></span></p>
+                </div>
+            </div>
+
+            <!-- Global Dates -->
+            <div class="mb-8 flex gap-8 bg-slate-50 p-4 rounded-lg border border-slate-200">
+                <div id="print-multi-arr-container" class="js-hidden"><strong class="text-slate-600 block text-xs uppercase" data-t="arrival">Arrivée</strong><span id="print-multi-arrival" class="font-bold block mt-1"></span></div>
+                <div id="print-multi-dep-container" class="js-hidden"><strong class="text-slate-600 block text-xs uppercase" data-t="departure">Départ</strong><span id="print-multi-departure" class="font-bold block mt-1"></span></div>
+                <div><strong class="text-slate-600 block text-xs uppercase" data-t="nights">Nuits</strong><span id="print-multi-nights" class="font-bold text-indigo-700 block mt-1 text-lg"></span></div>
+            </div>
+
+            <!-- Invoice Table -->
+            <div class="mb-6 w-full">
+                <table class="w-full text-left text-sm mb-4 border-collapse">
+                    <thead class="bg-indigo-50 border-b-2 border-indigo-200 text-indigo-900">
                         <tr>
-                            <td class="py-3 font-semibold text-slate-600 w-1/3" data-t="roomType">Type de Chambre</td>
-                            <td class="py-3 font-bold text-lg" id="print-room"></td>
+                            <th class="py-3 px-2 font-bold uppercase tracking-wider w-12 text-center" data-t="qty">Qté</th>
+                            <th class="py-3 px-2 font-bold uppercase tracking-wider" data-t="description">Description</th>
+                            <th class="py-3 px-2 font-bold uppercase tracking-wider text-right w-24" data-t="unitPrice">Prix/Nuit</th>
+                            <th class="py-3 px-2 font-bold uppercase tracking-wider text-right w-32" data-t="totalCol">Total</th>
                         </tr>
-                        <tr>
-                            <td class="py-3 font-semibold text-slate-600" data-t="occupancy">Occupation</td>
-                            <td class="py-3 font-bold text-lg" id="print-occupancy"></td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 font-semibold text-slate-600" data-t="ratePlan">Régime</td>
-                            <td class="py-3 font-bold text-lg" id="print-plan"></td>
-                        </tr>
-                        <tr id="print-arrival-row" class="js-hidden">
-                            <td class="py-3 font-semibold text-slate-600" data-t="arrival">Date d'arrivée</td>
-                            <td class="py-3 font-bold text-lg" id="print-arrival"></td>
-                        </tr>
-                        <tr id="print-departure-row" class="js-hidden">
-                            <td class="py-3 font-semibold text-slate-600" data-t="departure">Date de départ</td>
-                            <td class="py-3 font-bold text-lg" id="print-departure"></td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 font-semibold text-slate-600" data-t="nights">Nombre de Nuits</td>
-                            <td class="py-3 font-bold text-lg" id="print-nights"></td>
-                        </tr>
+                    </thead>
+                    <tbody id="print-multi-tbody" class="divide-y divide-slate-200">
+                        <!-- Filled by JS -->
                     </tbody>
                 </table>
             </div>
 
             <!-- Print Pricing Totals -->
-            <div class="flex justify-end shrink-0">
-                <!-- WIDENED BOX: w-2/3 gives plenty of room for long discount reasons without wrapping weirdly -->
+            <div class="flex justify-end shrink-0 avoid-break mt-12">
                 <div class="w-2/3 bg-slate-50 p-6 rounded-xl border border-slate-200">
-                    <div class="flex justify-between items-center mb-2 text-slate-600">
-                        <span id="label-print-nightly-rate" data-t="nightlyRate">Tarif par Nuit</span>
-                        <span class="font-semibold" id="print-nightly-rate"></span>
-                    </div>
-                    <div id="print-discount-night-row" class="flex justify-between items-center mb-2 text-rose-600 js-hidden">
-                        <span data-t="discountPerNight">Réduction / Nuit</span>
-                        <span class="font-semibold">-<span id="print-discount-night-amount"></span></span>
-                    </div>
-                    <div id="print-applied-night-row" class="flex justify-between items-center mb-4 text-emerald-700 font-bold js-hidden pb-3 border-b border-slate-200">
-                        <span data-t="appliedNightlyRate">Tarif appliqué / Nuit</span>
-                        <span id="print-applied-nightly-rate"></span>
-                    </div>
-                    <div id="print-subtotal-row" class="flex justify-between items-center mb-2 text-slate-600 js-hidden">
+                    <div id="print-multi-subtotal-row" class="flex justify-between items-center mb-2 text-slate-600 js-hidden">
                         <span data-t="subtotal">Sous-total</span>
-                        <span class="font-semibold" id="print-subtotal"></span>
+                        <span class="font-semibold" id="print-multi-subtotal"></span>
                     </div>
                     
-                    <!-- IMPROVED DISCOUNT ROW: Flex column on the left ensures long reasons flow neatly below the label -->
-                    <div id="print-discount-total-row" class="flex justify-between items-end mb-3 text-rose-600 js-hidden gap-4">
+                    <div id="print-multi-discount-row" class="flex justify-between items-end mb-3 text-rose-600 js-hidden gap-4">
                         <span class="flex flex-col">
                             <span data-t="totalDiscount" class="font-medium">Réduction Totale</span>
-                            <span id="print-discount-reason" class="text-xs italic text-rose-500 mt-0.5"></span>
+                            <span id="print-multi-discount-reason" class="text-xs italic text-rose-500 mt-0.5"></span>
                         </span>
-                        <span class="font-bold whitespace-nowrap text-lg">-<span id="print-discount-total-amount"></span></span>
+                        <span class="font-bold whitespace-nowrap text-lg">-<span id="print-multi-discount-amount"></span></span>
                     </div>
 
                     <div class="flex justify-between items-center border-t border-slate-300 pt-4 mt-2">
-                        <span class="text-2xl font-bold text-sky-900" data-t="total">Prix Total</span>
-                        <span class="text-2xl font-black text-sky-900" id="print-total"></span>
+                        <span class="text-2xl font-bold text-indigo-900" data-t="total">Prix Total</span>
+                        <span class="text-2xl font-black text-indigo-900" id="print-multi-total"></span>
                     </div>
                     <p class="text-right text-xs text-slate-400 mt-2" data-t="taxesIncluded">Taxes incluses / Taxes included</p>
                 </div>
             </div>
 
-            <!-- Print Footer - mt-auto guarantees it is stuck flush to the bottom of page 1 and cannot spill! -->
-            <div class="mt-auto pt-6 border-t border-slate-200 text-center text-slate-500 text-sm shrink-0">
+            <!-- Print Footer -->
+            <div class="mt-8 pt-6 border-t border-slate-200 text-center text-slate-500 text-sm shrink-0 avoid-break">
                 <p data-t="footerMsg">Merci d'avoir choisi Dakhla Camp Kitesurf. Nous avons hâte de vous accueillir !</p>
                 <p class="mt-2 font-semibold">www.dakhlacamp.com</p>
             </div>
@@ -347,7 +525,6 @@
         const occupancies = [...new Set(pricingData.map(item => item.occupancy))];
         const ratePlans = [...new Set(pricingData.map(item => item.plan))];
 
-        // --- DATA DICTIONARY (Translating internal string values) ---
         const dataDict = {
             "Standard Bungalow": { fr: "Bungalow Standard", en: "Standard Bungalow" },
             "Bungalow with Sea View": { fr: "Bungalow Vue Mer", en: "Bungalow with Sea View" },
@@ -360,17 +537,14 @@
             "Pension Complète (PC)*": { fr: "Pension Complète (PC)*", en: "Full Board (FB)*" }
         };
 
-        function tData(key) {
-            return dataDict[key] ? dataDict[key][state.lang] : key;
-        }
+        function tData(key) { return dataDict[key] ? dataDict[key][state.lang] : key; }
 
-        // --- UI TRANSLATIONS ---
         const translations = {
             en: {
                 appTitle: "Dakhla Camp Kitesurf - Reception",
                 switchLang: "Passer en Français",
                 tabPrices: "Price List",
-                tabCalculator: "Quote Calculator",
+                tabCalculator: "Quote Calculator (Single Room)",
                 roomType: "Room Type",
                 occupancy: "Occupancy",
                 ratePlan: "Rate Plan",
@@ -382,16 +556,20 @@
                 nights: "Number of Nights",
                 client: "Client:",
                 clientName: "Client Name (Optional)",
+                groupName: "Group / Client Name",
                 clientPlaceholder: "Ex: John Doe",
                 total: "Total Price",
+                totalCol: "Total",
                 nightlyRate: "Nightly Rate",
                 generatePdf: "Generate PDF Quote",
                 generatingPdf: "Generating...",
                 devisTitle: "PRICE QUOTE",
+                devisTitleMulti: "MULTI-ROOM QUOTE",
                 date: "Date",
                 summary: "Stay Summary",
                 footerMsg: "Thank you for choosing Dakhla Camp Kitesurf. We look forward to welcoming you!",
                 discount: "Discount",
+                discountGroup: "Discount (Group)",
                 fixed: "Fixed",
                 discountDesc: "Discount Reason (shown on quote)",
                 discountPlaceholder: "Ex: Loyal customer, Special offer...",
@@ -401,13 +579,23 @@
                 subtotal: "Subtotal",
                 taxesIncluded: "Taxes included",
                 baseNightlyRate: "Base Nightly Rate",
-                appliedNightlyRate: "Applied Nightly Rate"
+                appliedNightlyRate: "Applied Nightly Rate",
+                multiRoomBtn: "Multi-Room Quote",
+                multiRoomTitle: "Multi-Room Quote Builder",
+                groupSettings: "Group Settings",
+                addRoom: "Add room to quote",
+                qty: "Qty",
+                addBtn: "Add",
+                description: "Description",
+                descriptionEditable: "Description (Editable)",
+                unitPrice: "Price/Night",
+                emptyCart: "No rooms added yet. Add a room above."
             },
             fr: {
                 appTitle: "Dakhla Camp Kitesurf - Réception",
                 switchLang: "Switch to English",
                 tabPrices: "Liste des Prix",
-                tabCalculator: "Calculateur de Devis",
+                tabCalculator: "Calculateur de Devis (Chambre Unique)",
                 roomType: "Type de Chambre",
                 occupancy: "Occupation",
                 ratePlan: "Régime",
@@ -419,16 +607,20 @@
                 nights: "Nombre de Nuits",
                 client: "Client :",
                 clientName: "Nom du Client (Optionnel)",
+                groupName: "Nom du Groupe / Client",
                 clientPlaceholder: "Ex: John Doe",
                 total: "Prix Total",
+                totalCol: "Total",
                 nightlyRate: "Tarif par Nuit",
                 generatePdf: "Générer un Devis PDF",
                 generatingPdf: "Génération en cours...",
                 devisTitle: "DEVIS ESTIMATIF",
+                devisTitleMulti: "DEVIS MULTI-CHAMBRES",
                 date: "Date",
                 summary: "Résumé du Séjour",
                 footerMsg: "Merci d'avoir choisi Dakhla Camp Kitesurf. Nous avons hâte de vous accueillir !",
                 discount: "Réduction",
+                discountGroup: "Réduction (Groupe)",
                 fixed: "Fixe",
                 discountDesc: "Motif de la réduction (affiché sur le devis)",
                 discountPlaceholder: "Ex: Client fidèle, Offre spéciale...",
@@ -438,13 +630,24 @@
                 subtotal: "Sous-total",
                 taxesIncluded: "Taxes incluses",
                 baseNightlyRate: "Tarif de base / Nuit",
-                appliedNightlyRate: "Tarif Appliqué / Nuit"
+                appliedNightlyRate: "Tarif Appliqué / Nuit",
+                multiRoomBtn: "Devis Multi-Chambres",
+                multiRoomTitle: "Créateur Devis Multi-Chambres",
+                groupSettings: "Paramètres du Groupe",
+                addRoom: "Ajouter une chambre au devis",
+                qty: "Qté",
+                addBtn: "Ajouter",
+                description: "Description",
+                descriptionEditable: "Description (Modifiable)",
+                unitPrice: "Prix/Nuit",
+                emptyCart: "Aucune chambre ajoutée. Ajoutez-en une ci-dessus."
             }
         };
 
         // --- STATE ---
         let state = {
             lang: 'fr',
+            // Single Room State
             currency: 'MAD',
             selectedRoom: rooms[0],
             selectedOccupancy: occupancies[0],
@@ -456,12 +659,28 @@
             discountVal: 0,
             discountType: 'percent',
             discountDesc: '',
-            isGenerating: false
+            isGenerating: false,
+            
+            // INDEPENDENT Multi-Room State
+            mrCurrency: 'MAD',
+            mrArrivalDate: '',
+            mrDepartureDate: '',
+            mrNights: 1,
+            mrClientName: '',
+            mrDiscountVal: 0,
+            mrDiscountType: 'percent',
+            mrDiscountDesc: '',
+            multiRooms: [], // { id, qty, room, occupancy, plan }
+            mrSelectedRoom: rooms[0],
+            mrSelectedOccupancy: occupancies[0],
+            mrSelectedPlan: ratePlans[0],
+            mrQty: 1
         };
 
         // --- DOM ELEMENTS ---
         const els = {
             langBtn: document.getElementById('btn-lang'),
+            // Single Room DOM
             madBtn: document.getElementById('btn-mad'),
             eurBtn: document.getElementById('btn-eur'),
             clientInput: document.getElementById('input-client'),
@@ -476,349 +695,394 @@
             discountDescInput: document.getElementById('input-discount-desc'),
             printBtn: document.getElementById('btn-print'),
             tableBody: document.getElementById('pricing-table-body'),
-            pdfOverlay: document.getElementById('pdf-overlay')
+            pdfOverlay: document.getElementById('pdf-overlay'),
+            
+            // Multi-Room DOM
+            btnOpenMulti: document.getElementById('btn-open-multi'),
+            btnCloseMulti: document.getElementById('btn-close-multi'),
+            multiModal: document.getElementById('multi-room-modal'),
+            
+            mrMadBtn: document.getElementById('btn-mr-mad'),
+            mrEurBtn: document.getElementById('btn-mr-eur'),
+            mrClientInput: document.getElementById('mr-input-client'),
+            mrArrivalInput: document.getElementById('mr-input-arrival'),
+            mrDepartureInput: document.getElementById('mr-input-departure'),
+            mrNightsInput: document.getElementById('mr-input-nights'),
+
+            mrSelectRoom: document.getElementById('mr-select-room'),
+            mrSelectOcc: document.getElementById('mr-select-occupancy'),
+            mrSelectPlan: document.getElementById('mr-select-plan'),
+            mrInputQty: document.getElementById('mr-input-qty'),
+            btnMrAdd: document.getElementById('btn-mr-add'),
+            
+            mrDiscountValInput: document.getElementById('mr-input-discount-val'),
+            mrDiscountTypeSelect: document.getElementById('mr-select-discount-type'),
+            mrDiscountDescInput: document.getElementById('mr-input-discount-desc'),
+
+            mrCartBody: document.getElementById('mr-cart-body'),
+            btnMrPrint: document.getElementById('btn-mr-print'),
+            pdfOverlayMulti: document.getElementById('pdf-overlay-multi')
         };
 
         // --- INITIALIZATION ---
         function init() {
-            // Event Listeners
             els.langBtn.addEventListener('click', () => { state.lang = state.lang === 'en' ? 'fr' : 'en'; render(); });
+            
+            // Single Listeners
             els.madBtn.addEventListener('click', () => { state.currency = 'MAD'; render(); });
             els.eurBtn.addEventListener('click', () => { state.currency = 'EUR'; render(); });
             els.clientInput.addEventListener('input', (e) => { state.clientName = e.target.value; render(); });
             els.roomSelect.addEventListener('change', (e) => { state.selectedRoom = e.target.value; render(); });
             els.occupancySelect.addEventListener('change', (e) => { state.selectedOccupancy = e.target.value; render(); });
             els.planSelect.addEventListener('change', (e) => { state.selectedPlan = e.target.value; render(); });
-            
-            els.arrivalInput.addEventListener('change', handleArrival);
-            els.departureInput.addEventListener('change', handleDeparture);
-            els.nightsInput.addEventListener('input', handleNights);
-            
+            els.arrivalInput.addEventListener('change', (e) => handleDates(e, 'single', 'arrival'));
+            els.departureInput.addEventListener('change', (e) => handleDates(e, 'single', 'departure'));
+            els.nightsInput.addEventListener('input', (e) => handleDates(e, 'single', 'nights'));
             els.discountValInput.addEventListener('input', (e) => { state.discountVal = parseFloat(e.target.value) || 0; render(); });
             els.discountTypeSelect.addEventListener('change', (e) => { state.discountType = e.target.value; render(); });
             els.discountDescInput.addEventListener('input', (e) => { state.discountDesc = e.target.value; render(); });
-
             els.printBtn.addEventListener('click', generatePDF);
 
-            // Initial render
+            // Multi-Room Listeners
+            els.btnOpenMulti.addEventListener('click', openMultiModal);
+            els.btnCloseMulti.addEventListener('click', closeMultiModal);
+            
+            els.mrMadBtn.addEventListener('click', () => { state.mrCurrency = 'MAD'; render(); });
+            els.mrEurBtn.addEventListener('click', () => { state.mrCurrency = 'EUR'; render(); });
+            els.mrClientInput.addEventListener('input', (e) => { state.mrClientName = e.target.value; render(); });
+            els.mrArrivalInput.addEventListener('change', (e) => handleDates(e, 'multi', 'arrival'));
+            els.mrDepartureInput.addEventListener('change', (e) => handleDates(e, 'multi', 'departure'));
+            els.mrNightsInput.addEventListener('input', (e) => handleDates(e, 'multi', 'nights'));
+
+            els.mrSelectRoom.addEventListener('change', (e) => { state.mrSelectedRoom = e.target.value; });
+            els.mrSelectOcc.addEventListener('change', (e) => { state.mrSelectedOccupancy = e.target.value; });
+            els.mrSelectPlan.addEventListener('change', (e) => { state.mrSelectedPlan = e.target.value; });
+            els.mrInputQty.addEventListener('input', (e) => { state.mrQty = parseInt(e.target.value) || 1; });
+            els.btnMrAdd.addEventListener('click', addMultiRoom);
+            
+            els.mrDiscountValInput.addEventListener('input', (e) => { state.mrDiscountVal = parseFloat(e.target.value) || 0; render(); });
+            els.mrDiscountTypeSelect.addEventListener('change', (e) => { state.mrDiscountType = e.target.value; render(); });
+            els.mrDiscountDescInput.addEventListener('input', (e) => { state.mrDiscountDesc = e.target.value; render(); });
+
+            els.btnMrPrint.addEventListener('click', generateMultiPDF);
+
             render();
         }
 
         // --- HELPERS ---
         function calculateNights(start, end) {
             if (!start || !end) return 0;
-            const diffTime = new Date(end) - new Date(start);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const diffDays = Math.ceil((new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24));
             return diffDays > 0 ? diffDays : 0;
         }
 
         function formatCurrency(val, curr) {
-            return new Intl.NumberFormat(state.lang === 'fr' ? 'fr-FR' : 'en-US', {
-                style: 'currency',
-                currency: curr,
-                minimumFractionDigits: 2
-            }).format(val);
+            return new Intl.NumberFormat(state.lang === 'fr' ? 'fr-FR' : 'en-US', { style: 'currency', currency: curr, minimumFractionDigits: 2 }).format(val);
         }
-
         function formatDate(dateStr) {
             if (!dateStr) return '';
             return new Date(dateStr).toLocaleDateString(state.lang === 'fr' ? 'fr-FR' : 'en-US');
         }
 
-        // --- EVENT HANDLERS FOR DATES ---
-        function handleArrival(e) {
-            const newArrival = e.target.value;
-            state.arrivalDate = newArrival;
-            if (!newArrival) { render(); return; }
-            
-            if (state.departureDate) {
-                const n = calculateNights(newArrival, state.departureDate);
-                if (n > 0) state.nights = n;
-            } else if (state.nights > 0) {
-                const d1 = new Date(newArrival);
-                d1.setDate(d1.getDate() + state.nights);
-                state.departureDate = d1.toISOString().split('T')[0];
+        // --- UNIFIED DATE HANDLER ---
+        function handleDates(e, mode, type) {
+            const isSingle = mode === 'single';
+            let arr = isSingle ? state.arrivalDate : state.mrArrivalDate;
+            let dep = isSingle ? state.departureDate : state.mrDepartureDate;
+            let n   = isSingle ? state.nights : state.mrNights;
+
+            if (type === 'arrival') {
+                arr = e.target.value;
+                if(arr) {
+                    if (dep) { const nights = calculateNights(arr, dep); if (nights > 0) n = nights; } 
+                    else if (n > 0) { const d = new Date(arr); d.setDate(d.getDate() + n); dep = d.toISOString().split('T')[0]; }
+                }
+            } else if (type === 'departure') {
+                dep = e.target.value;
+                if(dep && arr) { const nights = calculateNights(arr, dep); if (nights > 0) n = nights; }
+            } else if (type === 'nights') {
+                n = parseInt(e.target.value) || 0;
+                if (arr && n > 0) { const d = new Date(arr); d.setDate(d.getDate() + n); dep = d.toISOString().split('T')[0]; } 
+                else if (n === 0) { dep = ''; }
             }
+
+            if (isSingle) { state.arrivalDate = arr; state.departureDate = dep; state.nights = n; } 
+            else { state.mrArrivalDate = arr; state.mrDepartureDate = dep; state.mrNights = n; }
             render();
         }
 
-        function handleDeparture(e) {
-            const newDep = e.target.value;
-            state.departureDate = newDep;
-            if (!newDep) { render(); return; }
-
-            if (state.arrivalDate) {
-                const n = calculateNights(state.arrivalDate, newDep);
-                if (n > 0) state.nights = n;
-            }
+        // --- MULTI-ROOM CART LOGIC ---
+        function openMultiModal() {
+            els.multiModal.classList.remove('js-hidden');
+            setTimeout(() => { els.multiModal.classList.remove('opacity-0', 'pointer-events-none'); }, 10);
             render();
         }
-
-        function handleNights(e) {
-            const n = parseInt(e.target.value) || 0;
-            state.nights = n;
-            if (state.arrivalDate && n > 0) {
-                const d1 = new Date(state.arrivalDate);
-                d1.setDate(d1.getDate() + n);
-                state.departureDate = d1.toISOString().split('T')[0];
-            } else if (n === 0) {
-                state.departureDate = '';
-            }
+        function closeMultiModal() {
+            els.multiModal.classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => { els.multiModal.classList.add('js-hidden'); }, 300);
+        }
+        function addMultiRoom() {
+            if(state.mrQty < 1) return;
+            state.multiRooms.push({ id: Date.now(), qty: state.mrQty, room: state.mrSelectedRoom, occupancy: state.mrSelectedOccupancy, plan: state.mrSelectedPlan });
+            state.mrQty = 1; els.mrInputQty.value = 1;
             render();
         }
+        function removeMultiRoom(id) { state.multiRooms = state.multiRooms.filter(r => r.id !== id); render(); }
+        
+        function updateMultiRoom(id, field, value) {
+            const roomIndex = state.multiRooms.findIndex(r => r.id === id);
+            if (roomIndex !== -1) {
+                if (field === 'qty') {
+                    state.multiRooms[roomIndex].qty = parseInt(value) || 1;
+                } else {
+                    state.multiRooms[roomIndex][field] = value;
+                }
+                render();
+            }
+        }
+        
+        window.removeMultiRoom = removeMultiRoom;
+        window.updateMultiRoom = updateMultiRoom;
 
-        // --- RENDER LOGIC ---
+        // --- MAIN RENDER LOGIC ---
         function render() {
-            // 1. Update ALL UI Labels dynamically (Fixed the bug that was missing table data cells)
+            // 1. Translations Update
             document.querySelectorAll('[data-t]').forEach(el => {
                 const key = el.getAttribute('data-t');
-                if (translations[state.lang][key]) {
-                    el.innerText = translations[state.lang][key];
-                }
+                if (translations[state.lang][key]) el.innerText = translations[state.lang][key];
             });
-
-            // Update placeholders based on language
             els.clientInput.placeholder = translations[state.lang].clientPlaceholder;
             els.discountDescInput.placeholder = translations[state.lang].discountPlaceholder;
+            els.mrClientInput.placeholder = translations[state.lang].clientPlaceholder;
+            els.mrDiscountDescInput.placeholder = translations[state.lang].discountPlaceholder;
 
-            // 2. Re-populate Selects with TRANSLATED options
-            els.roomSelect.innerHTML = rooms.map(r => `<option value="${r}">${tData(r)}</option>`).join('');
-            els.occupancySelect.innerHTML = occupancies.map(o => `<option value="${o}">${tData(o)}</option>`).join('');
-            els.planSelect.innerHTML = ratePlans.map(p => `<option value="${p}">${tData(p)}</option>`).join('');
+            // 2. Select Options
+            const roomOpts = rooms.map(r => `<option value="${r}">${tData(r)}</option>`).join('');
+            const occOpts = occupancies.map(o => `<option value="${o}">${tData(o)}</option>`).join('');
+            const planOpts = ratePlans.map(p => `<option value="${p}">${tData(p)}</option>`).join('');
+            els.roomSelect.innerHTML = roomOpts; els.occupancySelect.innerHTML = occOpts; els.planSelect.innerHTML = planOpts;
+            els.mrSelectRoom.innerHTML = roomOpts; els.mrSelectOcc.innerHTML = occOpts; els.mrSelectPlan.innerHTML = planOpts;
             
-            // Re-apply selected state values
-            els.roomSelect.value = state.selectedRoom;
-            els.occupancySelect.value = state.selectedOccupancy;
-            els.planSelect.value = state.selectedPlan;
-            els.discountTypeSelect.value = state.discountType;
+            els.roomSelect.value = state.selectedRoom; els.occupancySelect.value = state.selectedOccupancy; els.planSelect.value = state.selectedPlan;
+            els.mrSelectRoom.value = state.mrSelectedRoom; els.mrSelectOcc.value = state.mrSelectedOccupancy; els.mrSelectPlan.value = state.mrSelectedPlan;
+            els.discountTypeSelect.value = state.discountType; els.mrDiscountTypeSelect.value = state.mrDiscountType;
 
-            // 3. Update Currency Buttons visually
-            if (state.currency === 'MAD') {
-                els.madBtn.className = "flex-1 py-3 px-4 rounded-xl border-2 font-bold transition-all border-sky-600 bg-sky-50 text-sky-800";
-                els.eurBtn.className = "flex-1 py-3 px-4 rounded-xl border-2 font-bold transition-all border-slate-200 text-slate-500 hover:bg-slate-50";
-            } else {
-                els.eurBtn.className = "flex-1 py-3 px-4 rounded-xl border-2 font-bold transition-all border-sky-600 bg-sky-50 text-sky-800";
-                els.madBtn.className = "flex-1 py-3 px-4 rounded-xl border-2 font-bold transition-all border-slate-200 text-slate-500 hover:bg-slate-50";
-            }
+            // 3. Single UI Sync
+            els.madBtn.className = state.currency === 'MAD' ? "flex-1 py-3 px-2 sm:px-4 rounded-xl border-2 font-bold transition-all border-sky-600 bg-sky-50 text-sky-800 text-sm sm:text-base" : "flex-1 py-3 px-2 sm:px-4 rounded-xl border-2 font-bold transition-all border-slate-200 text-slate-500 hover:bg-slate-50 text-sm sm:text-base";
+            els.eurBtn.className = state.currency === 'EUR' ? "flex-1 py-3 px-2 sm:px-4 rounded-xl border-2 font-bold transition-all border-sky-600 bg-sky-50 text-sky-800 text-sm sm:text-base" : "flex-1 py-3 px-2 sm:px-4 rounded-xl border-2 font-bold transition-all border-slate-200 text-slate-500 hover:bg-slate-50 text-sm sm:text-base";
+            els.arrivalInput.value = state.arrivalDate; els.departureInput.value = state.departureDate; els.departureInput.min = state.arrivalDate || ''; els.nightsInput.value = state.nights;
 
-            // Keep inputs synced with state
-            els.arrivalInput.value = state.arrivalDate;
-            els.departureInput.value = state.departureDate;
-            els.departureInput.min = state.arrivalDate || '';
-            els.nightsInput.value = state.nights;
+            // 4. Multi UI Sync
+            els.mrMadBtn.className = state.mrCurrency === 'MAD' ? "flex-1 rounded-lg border-2 font-bold text-sm transition-all border-indigo-600 bg-indigo-50 text-indigo-800" : "flex-1 rounded-lg border-2 font-bold text-sm transition-all border-slate-200 text-slate-500 hover:bg-slate-50";
+            els.mrEurBtn.className = state.mrCurrency === 'EUR' ? "flex-1 rounded-lg border-2 font-bold text-sm transition-all border-indigo-600 bg-indigo-50 text-indigo-800" : "flex-1 rounded-lg border-2 font-bold text-sm transition-all border-slate-200 text-slate-500 hover:bg-slate-50";
+            els.mrArrivalInput.value = state.mrArrivalDate; els.mrDepartureInput.value = state.mrDepartureDate; els.mrDepartureInput.min = state.mrArrivalDate || ''; els.mrNightsInput.value = state.mrNights;
 
-            // 4. Calculate Total
+            // 5. CALCULATE SINGLE
             const currentPricing = pricingData.find(p => p.room === state.selectedRoom && p.occupancy === state.selectedOccupancy && p.plan === state.selectedPlan);
             const nightlyRate = currentPricing ? (state.currency === 'MAD' ? currentPricing.mad : currentPricing.eur) : 0;
-            
             const subtotal = nightlyRate * (state.nights || 0);
-            let discountAmount = 0;
             
-            if (state.discountVal > 0) {
-                if (state.discountType === 'percent') {
-                    discountAmount = subtotal * (state.discountVal / 100);
-                } else {
-                    discountAmount = state.discountVal; // Fixed amount in selected currency
-                }
-            }
-            if (discountAmount > subtotal) discountAmount = subtotal; // Prevent negative total
+            let discountAmount = 0;
+            if (state.discountVal > 0) discountAmount = state.discountType === 'percent' ? subtotal * (state.discountVal / 100) : state.discountVal;
+            if (discountAmount > subtotal) discountAmount = subtotal;
             
             const nightlyDiscountAmount = state.nights > 0 ? (discountAmount / state.nights) : discountAmount;
             const appliedNightlyRate = Math.max(0, nightlyRate - nightlyDiscountAmount);
             const totalPrice = subtotal - discountAmount;
 
-            // 5. Update Calculator UI values
             document.getElementById('display-nightly-rate').innerText = formatCurrency(nightlyRate, state.currency);
             document.getElementById('display-total-price').innerText = formatCurrency(totalPrice, state.currency);
             
-            const displayDiscountNightRow = document.getElementById('display-discount-night-row');
-            const displayAppliedNightlyRow = document.getElementById('display-applied-nightly-row');
-            const displayDiscountTotalRow = document.getElementById('display-discount-total-row');
-            const labelNightlyRate = document.getElementById('label-nightly-rate');
-
             if (discountAmount > 0) {
-                displayDiscountNightRow.classList.remove('js-hidden');
-                displayAppliedNightlyRow.classList.remove('js-hidden');
-                displayDiscountTotalRow.classList.remove('js-hidden');
-                
+                document.getElementById('display-discount-night-row').classList.remove('js-hidden');
+                document.getElementById('display-applied-nightly-row').classList.remove('js-hidden');
+                document.getElementById('display-discount-total-row').classList.remove('js-hidden');
                 document.getElementById('display-discount-night-amount').innerText = formatCurrency(nightlyDiscountAmount, state.currency);
                 document.getElementById('display-applied-nightly-rate').innerText = formatCurrency(appliedNightlyRate, state.currency);
                 document.getElementById('display-discount-total-amount').innerText = formatCurrency(discountAmount, state.currency);
-                
-                labelNightlyRate.setAttribute('data-t', 'baseNightlyRate');
-                labelNightlyRate.innerText = translations[state.lang].baseNightlyRate;
+                document.getElementById('label-nightly-rate').innerText = translations[state.lang].baseNightlyRate;
             } else {
-                displayDiscountNightRow.classList.add('js-hidden');
-                displayAppliedNightlyRow.classList.add('js-hidden');
-                displayDiscountTotalRow.classList.add('js-hidden');
-                
-                labelNightlyRate.setAttribute('data-t', 'nightlyRate');
-                labelNightlyRate.innerText = translations[state.lang].nightlyRate;
+                document.getElementById('display-discount-night-row').classList.add('js-hidden');
+                document.getElementById('display-applied-nightly-row').classList.add('js-hidden');
+                document.getElementById('display-discount-total-row').classList.add('js-hidden');
+                document.getElementById('label-nightly-rate').innerText = translations[state.lang].nightlyRate;
             }
 
-            // 6. Update Pricing Table (Using translated names for Room, Occ, Plan)
+            // 6. CALCULATE MULTI-ROOM
+            let mrSubtotal = 0; let mrTableHTML = ''; let mrPrintTableHTML = '';
+            if (state.multiRooms.length === 0) {
+                mrTableHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-400 italic">${translations[state.lang].emptyCart}</td></tr>`;
+            } else {
+                state.multiRooms.forEach((item) => {
+                    const priceRow = pricingData.find(p => p.room === item.room && p.occupancy === item.occupancy && p.plan === item.plan);
+                    const itemRate = priceRow ? (state.mrCurrency === 'MAD' ? priceRow.mad : priceRow.eur) : 0;
+                    const itemTotal = itemRate * item.qty * (state.mrNights || 0);
+                    mrSubtotal += itemTotal;
+                    
+                    const desc = `${tData(item.room)} - ${tData(item.occupancy)} - ${tData(item.plan)}`;
+                    
+                    const itemRoomOpts = rooms.map(r => `<option value="${r}" ${r === item.room ? 'selected' : ''}>${tData(r)}</option>`).join('');
+                    const itemOccOpts = occupancies.map(o => `<option value="${o}" ${o === item.occupancy ? 'selected' : ''}>${tData(o)}</option>`).join('');
+                    const itemPlanOpts = ratePlans.map(p => `<option value="${p}" ${p === item.plan ? 'selected' : ''}>${tData(p)}</option>`).join('');
+
+                    mrTableHTML += `
+                        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100">
+                            <td class="p-2 align-top">
+                                <input type="number" min="1" value="${item.qty}" onchange="updateMultiRoom(${item.id}, 'qty', this.value)" class="w-16 p-1.5 border border-slate-300 rounded text-center font-bold text-slate-700 focus:border-indigo-500 outline-none" />
+                            </td>
+                            <td class="p-2 flex flex-col gap-1.5 align-top">
+                                <select onchange="updateMultiRoom(${item.id}, 'room', this.value)" class="p-1.5 border border-slate-300 rounded text-slate-700 text-xs focus:border-indigo-500 outline-none">${itemRoomOpts}</select>
+                                <select onchange="updateMultiRoom(${item.id}, 'occupancy', this.value)" class="p-1.5 border border-slate-300 rounded text-slate-700 text-xs focus:border-indigo-500 outline-none">${itemOccOpts}</select>
+                                <select onchange="updateMultiRoom(${item.id}, 'plan', this.value)" class="p-1.5 border border-slate-300 rounded text-slate-700 text-xs focus:border-indigo-500 outline-none">${itemPlanOpts}</select>
+                            </td>
+                            <td class="p-2 text-right text-slate-600 align-middle font-medium">${formatCurrency(itemRate, state.mrCurrency)}</td>
+                            <td class="p-2 text-right font-bold text-indigo-700 align-middle">${formatCurrency(itemTotal, state.mrCurrency)}</td>
+                            <td class="p-2 text-center align-middle">
+                                <button onclick="removeMultiRoom(${item.id})" class="text-rose-400 hover:text-rose-600 p-1.5 rounded hover:bg-rose-50 transition-colors" title="Remove">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2-2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                </button>
+                            </td>
+                        </tr>`;
+                        
+                    mrPrintTableHTML += `
+                        <tr>
+                            <td class="py-3 px-2 text-center font-bold">${item.qty}</td><td class="py-3 px-2 text-slate-700 font-medium leading-tight">${desc}</td>
+                            <td class="py-3 px-2 text-right text-slate-600">${formatCurrency(itemRate, state.mrCurrency)}</td>
+                            <td class="py-3 px-2 text-right font-bold text-indigo-700">${formatCurrency(itemTotal, state.mrCurrency)}</td>
+                        </tr>`;
+                });
+            }
+            els.mrCartBody.innerHTML = mrTableHTML; document.getElementById('print-multi-tbody').innerHTML = mrPrintTableHTML;
+
+            let mrDiscountAmount = 0;
+            if (state.mrDiscountVal > 0) mrDiscountAmount = state.mrDiscountType === 'percent' ? mrSubtotal * (state.mrDiscountVal / 100) : state.mrDiscountVal;
+            if (mrDiscountAmount > mrSubtotal) mrDiscountAmount = mrSubtotal;
+            const mrTotalPrice = mrSubtotal - mrDiscountAmount;
+
+            document.getElementById('mr-display-subtotal').innerText = formatCurrency(mrSubtotal, state.mrCurrency);
+            document.getElementById('mr-display-total').innerText = formatCurrency(mrTotalPrice, state.mrCurrency);
+            
+            if(mrDiscountAmount > 0) {
+                document.getElementById('mr-display-discount-row').classList.remove('js-hidden');
+                document.getElementById('mr-display-discount').innerText = formatCurrency(mrDiscountAmount, state.mrCurrency);
+            } else { document.getElementById('mr-display-discount-row').classList.add('js-hidden'); }
+
+            // 7. General Pricing Table HTML
             let tableHTML = '';
             pricingData.forEach((row, idx) => {
                 const isFirstRoom = idx === 0 || pricingData[idx-1].room !== row.room;
                 const isFirstOcc = isFirstRoom || pricingData[idx-1].occupancy !== row.occupancy;
-                
-                tableHTML += `
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="p-4 align-top ${isFirstRoom ? 'font-bold text-slate-800' : 'text-transparent'}">${isFirstRoom ? tData(row.room) : '”'}</td>
-                        <td class="p-4 align-top ${isFirstOcc ? 'font-medium text-slate-700' : 'text-transparent'}">${isFirstOcc ? tData(row.occupancy) : '”'}</td>
-                        <td class="p-4 text-slate-600">${tData(row.plan)}</td>
-                        <td class="p-4 text-right font-semibold text-emerald-700">${formatCurrency(row.mad, 'MAD')}</td>
-                        <td class="p-4 text-right font-semibold text-blue-700">${formatCurrency(row.eur, 'EUR')}</td>
-                    </tr>
-                `;
+                tableHTML += `<tr class="hover:bg-slate-50 transition-colors"><td class="p-4 align-top ${isFirstRoom ? 'font-bold text-slate-800' : 'text-transparent'}">${isFirstRoom ? tData(row.room) : '”'}</td><td class="p-4 align-top ${isFirstOcc ? 'font-medium text-slate-700' : 'text-transparent'}">${isFirstOcc ? tData(row.occupancy) : '”'}</td><td class="p-4 text-slate-600">${tData(row.plan)}</td><td class="p-4 text-right font-semibold text-emerald-700">${formatCurrency(row.mad, 'MAD')}</td><td class="p-4 text-right font-semibold text-blue-700">${formatCurrency(row.eur, 'EUR')}</td></tr>`;
             });
             els.tableBody.innerHTML = tableHTML;
 
-            // 7. Update PDF Values dynamically
-            document.getElementById('print-date').innerText = new Date().toLocaleDateString(state.lang === 'fr' ? 'fr-FR' : 'en-US');
+            // 8. UPDATE PDF TEMPLATES
+            const printDate = new Date().toLocaleDateString(state.lang === 'fr' ? 'fr-FR' : 'en-US');
+            document.getElementById('print-date').innerText = printDate; document.getElementById('print-multi-date').innerText = printDate;
             
-            const clientContainer = document.getElementById('print-client-container');
-            if (state.clientName) {
-                clientContainer.classList.remove('js-hidden');
-                document.getElementById('print-client').innerText = state.clientName;
-            } else {
-                clientContainer.classList.add('js-hidden');
-            }
-
-            // Use the translated strings for the PDF
-            document.getElementById('print-room').innerText = tData(state.selectedRoom);
-            document.getElementById('print-occupancy').innerText = tData(state.selectedOccupancy);
-            document.getElementById('print-plan').innerText = tData(state.selectedPlan);
-
-            const arrRow = document.getElementById('print-arrival-row');
-            if (state.arrivalDate) {
-                arrRow.classList.remove('js-hidden');
-                document.getElementById('print-arrival').innerText = formatDate(state.arrivalDate);
-            } else { arrRow.classList.add('js-hidden'); }
-
-            const depRow = document.getElementById('print-departure-row');
-            if (state.departureDate) {
-                depRow.classList.remove('js-hidden');
-                document.getElementById('print-departure').innerText = formatDate(state.departureDate);
-            } else { depRow.classList.add('js-hidden'); }
-
-            document.getElementById('print-nights').innerText = state.nights;
-            document.getElementById('print-nightly-rate').innerText = formatCurrency(nightlyRate, state.currency);
+            // Single PDF Fill
+            if (state.clientName) { document.getElementById('print-client-container').classList.remove('js-hidden'); document.getElementById('print-client').innerText = state.clientName; } 
+            else { document.getElementById('print-client-container').classList.add('js-hidden'); }
             
-            // PDF Discount & Subtotal handling
-            const printDiscountNightRow = document.getElementById('print-discount-night-row');
-            const printAppliedNightRow = document.getElementById('print-applied-night-row');
-            const printSubtotalRow = document.getElementById('print-subtotal-row');
-            const printDiscountTotalRow = document.getElementById('print-discount-total-row');
-            const labelPrintNightlyRate = document.getElementById('label-print-nightly-rate');
+            document.getElementById('print-room').innerText = tData(state.selectedRoom); document.getElementById('print-occupancy').innerText = tData(state.selectedOccupancy); document.getElementById('print-plan').innerText = tData(state.selectedPlan);
+            if (state.arrivalDate) { document.getElementById('print-arrival-row').classList.remove('js-hidden'); document.getElementById('print-arrival').innerText = formatDate(state.arrivalDate); } else { document.getElementById('print-arrival-row').classList.add('js-hidden'); }
+            if (state.departureDate) { document.getElementById('print-departure-row').classList.remove('js-hidden'); document.getElementById('print-departure').innerText = formatDate(state.departureDate); } else { document.getElementById('print-departure-row').classList.add('js-hidden'); }
+            document.getElementById('print-nights').innerText = state.nights; document.getElementById('print-nightly-rate').innerText = formatCurrency(nightlyRate, state.currency);
             
             if (discountAmount > 0) {
-                printDiscountNightRow.classList.remove('js-hidden');
-                document.getElementById('print-discount-night-amount').innerText = formatCurrency(nightlyDiscountAmount, state.currency);
-
-                printAppliedNightRow.classList.remove('js-hidden');
-                document.getElementById('print-applied-nightly-rate').innerText = formatCurrency(appliedNightlyRate, state.currency);
-
-                printSubtotalRow.classList.remove('js-hidden');
-                document.getElementById('print-subtotal').innerText = formatCurrency(subtotal, state.currency);
-                
-                printDiscountTotalRow.classList.remove('js-hidden');
-                document.getElementById('print-discount-total-amount').innerText = formatCurrency(discountAmount, state.currency);
-                
-                // Format the extra label to show percentage and/or description
-                let discountLabelExtra = "";
-                if (state.discountType === 'percent') {
-                    discountLabelExtra += ` (${state.discountVal}%)`;
-                }
-                if (state.discountDesc) {
-                    discountLabelExtra += discountLabelExtra ? ` - ${state.discountDesc}` : ` (${state.discountDesc})`;
-                }
+                document.getElementById('print-discount-night-row').classList.remove('js-hidden'); document.getElementById('print-applied-night-row').classList.remove('js-hidden'); document.getElementById('print-subtotal-row').classList.remove('js-hidden'); document.getElementById('print-discount-total-row').classList.remove('js-hidden');
+                document.getElementById('print-discount-night-amount').innerText = formatCurrency(nightlyDiscountAmount, state.currency); document.getElementById('print-applied-nightly-rate').innerText = formatCurrency(appliedNightlyRate, state.currency); document.getElementById('print-subtotal').innerText = formatCurrency(subtotal, state.currency); document.getElementById('print-discount-total-amount').innerText = formatCurrency(discountAmount, state.currency);
+                let discountLabelExtra = state.discountType === 'percent' ? ` (${state.discountVal}%)` : "";
+                if (state.discountDesc) discountLabelExtra += discountLabelExtra ? ` - ${state.discountDesc}` : ` (${state.discountDesc})`;
                 document.getElementById('print-discount-reason').innerText = discountLabelExtra;
-
-                labelPrintNightlyRate.setAttribute('data-t', 'baseNightlyRate');
-                labelPrintNightlyRate.innerText = translations[state.lang].baseNightlyRate;
+                document.getElementById('label-print-nightly-rate').innerText = translations[state.lang].baseNightlyRate;
             } else {
-                printDiscountNightRow.classList.add('js-hidden');
-                printAppliedNightRow.classList.add('js-hidden');
-                printSubtotalRow.classList.add('js-hidden');
-                printDiscountTotalRow.classList.add('js-hidden');
-
-                labelPrintNightlyRate.setAttribute('data-t', 'nightlyRate');
-                labelPrintNightlyRate.innerText = translations[state.lang].nightlyRate;
+                document.getElementById('print-discount-night-row').classList.add('js-hidden'); document.getElementById('print-applied-night-row').classList.add('js-hidden'); document.getElementById('print-subtotal-row').classList.add('js-hidden'); document.getElementById('print-discount-total-row').classList.add('js-hidden');
+                document.getElementById('label-print-nightly-rate').innerText = translations[state.lang].nightlyRate;
             }
-            
             document.getElementById('print-total').innerText = formatCurrency(totalPrice, state.currency);
-            
-            // Generate Button State
-            if(state.isGenerating) {
-                els.printBtn.classList.add('bg-slate-400', 'cursor-not-allowed');
-                els.printBtn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
-                document.getElementById('icon-print').classList.add('js-hidden');
-                document.getElementById('icon-loading').classList.remove('js-hidden');
-                document.getElementById('text-btn-print').innerText = translations[state.lang].generatingPdf;
+
+            // Multi PDF Fill
+            if (state.mrClientName) { document.getElementById('print-multi-client-container').classList.remove('js-hidden'); document.getElementById('print-multi-client').innerText = state.mrClientName; } 
+            else { document.getElementById('print-multi-client-container').classList.add('js-hidden'); }
+
+            if (state.mrArrivalDate) { document.getElementById('print-multi-arr-container').classList.remove('js-hidden'); document.getElementById('print-multi-arrival').innerText = formatDate(state.mrArrivalDate); } else { document.getElementById('print-multi-arr-container').classList.add('js-hidden'); }
+            if (state.mrDepartureDate) { document.getElementById('print-multi-dep-container').classList.remove('js-hidden'); document.getElementById('print-multi-departure').innerText = formatDate(state.mrDepartureDate); } else { document.getElementById('print-multi-dep-container').classList.add('js-hidden'); }
+            document.getElementById('print-multi-nights').innerText = state.mrNights;
+
+            if (mrDiscountAmount > 0) {
+                document.getElementById('print-multi-subtotal-row').classList.remove('js-hidden'); document.getElementById('print-multi-discount-row').classList.remove('js-hidden');
+                document.getElementById('print-multi-subtotal').innerText = formatCurrency(mrSubtotal, state.mrCurrency); document.getElementById('print-multi-discount-amount').innerText = formatCurrency(mrDiscountAmount, state.mrCurrency);
+                let mrDiscountLabelExtra = state.mrDiscountType === 'percent' ? ` (${state.mrDiscountVal}%)` : "";
+                if (state.mrDiscountDesc) mrDiscountLabelExtra += mrDiscountLabelExtra ? ` - ${state.mrDiscountDesc}` : ` (${state.mrDiscountDesc})`;
+                document.getElementById('print-multi-discount-reason').innerText = mrDiscountLabelExtra;
             } else {
-                els.printBtn.classList.remove('bg-slate-400', 'cursor-not-allowed');
-                els.printBtn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
-                document.getElementById('icon-loading').classList.add('js-hidden');
-                document.getElementById('icon-print').classList.remove('js-hidden');
-                document.getElementById('text-btn-print').innerText = translations[state.lang].generatePdf;
+                document.getElementById('print-multi-subtotal-row').classList.add('js-hidden'); document.getElementById('print-multi-discount-row').classList.add('js-hidden');
+            }
+            document.getElementById('print-multi-total').innerText = formatCurrency(mrTotalPrice, state.mrCurrency);
+
+            // Button States
+            if(state.isGenerating) {
+                els.printBtn.classList.add('bg-slate-400', 'cursor-not-allowed'); els.printBtn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+                document.getElementById('icon-print').classList.add('js-hidden'); document.getElementById('icon-loading').classList.remove('js-hidden'); document.getElementById('text-btn-print').innerText = translations[state.lang].generatingPdf;
+                els.btnMrPrint.classList.add('bg-slate-400', 'cursor-not-allowed'); els.btnMrPrint.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                document.getElementById('icon-mr-print').classList.add('js-hidden'); document.getElementById('icon-mr-loading').classList.remove('js-hidden'); document.getElementById('text-btn-mr-print').innerText = translations[state.lang].generatingPdf;
+            } else {
+                els.printBtn.classList.remove('bg-slate-400', 'cursor-not-allowed'); els.printBtn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+                document.getElementById('icon-loading').classList.add('js-hidden'); document.getElementById('icon-print').classList.remove('js-hidden'); document.getElementById('text-btn-print').innerText = translations[state.lang].generatePdf;
+                els.btnMrPrint.classList.remove('bg-slate-400', 'cursor-not-allowed'); els.btnMrPrint.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+                document.getElementById('icon-mr-loading').classList.add('js-hidden'); document.getElementById('icon-mr-print').classList.remove('js-hidden'); document.getElementById('text-btn-mr-print').innerText = translations[state.lang].generatePdf;
             }
         }
 
-        // --- PDF GENERATION ---
+        // --- SINGLE PDF GENERATION ---
         function generatePDF() {
-            if (!window.html2pdf) {
-                window.print();
-                return;
-            }
+            if (!window.html2pdf) { window.print(); return; }
+            state.isGenerating = true; render();
+            els.pdfOverlay.classList.remove('js-hidden'); setTimeout(() => { els.pdfOverlay.classList.remove('opacity-0', 'pointer-events-none'); }, 10);
 
-            state.isGenerating = true;
-            render();
-
-            // 1. Show overlay
-            els.pdfOverlay.classList.remove('js-hidden');
-            // Small delay to allow CSS to render display:flex before animating opacity
-            setTimeout(() => {
-                els.pdfOverlay.classList.remove('opacity-0', 'pointer-events-none');
-            }, 10);
-
-            // 2. Wait 500ms to guarantee browser painting
             setTimeout(() => {
                 const element = document.getElementById('devis-print-area');
-                
-                // Format the file name: Devis_DakhlaCamp_[Name]_[RoomType].pdf
                 const safeClientName = state.clientName ? `_${state.clientName.replace(/\s+/g, '_')}` : '';
                 const safeRoomName = `_${state.selectedRoom.replace(/\s+/g, '_')}`;
-                const fileName = `Devis_DakhlaCamp${safeClientName}${safeRoomName}.pdf`;
-
-                const opt = {
-                    margin:       [0, 0, 0, 0],
-                    filename:     fileName,
-                    image:        { type: 'jpeg', quality: 1 },
-                    html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
-                    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-                };
-
-                window.html2pdf().set(opt).from(element).save().then(() => {
-                    // Hide overlay
-                    els.pdfOverlay.classList.add('opacity-0', 'pointer-events-none');
-                    setTimeout(() => els.pdfOverlay.classList.add('js-hidden'), 300); // Wait for transition
-                    
-                    state.isGenerating = false;
-                    render();
+                const prefix = state.lang === 'fr' ? 'Devis' : 'Quote';
+                
+                window.html2pdf().set({ margin: 0, filename: `${prefix}_DakhlaCamp${safeClientName}${safeRoomName}.pdf`, image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2, useCORS: true, scrollY: 0 }, jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' } }).from(element).save().then(() => {
+                    els.pdfOverlay.classList.add('opacity-0', 'pointer-events-none'); setTimeout(() => els.pdfOverlay.classList.add('js-hidden'), 300);
+                    state.isGenerating = false; render();
                 }).catch(err => {
-                    console.error("PDF Error:", err);
-                    alert("Erreur / Error generating PDF.");
-                    
+                    alert(state.lang === 'fr' ? "Erreur lors de la génération du PDF." : "Error generating PDF."); 
                     els.pdfOverlay.classList.add('opacity-0', 'pointer-events-none', 'js-hidden');
-                    state.isGenerating = false;
-                    render();
-                    window.print();
+                    state.isGenerating = false; render(); window.print();
                 });
             }, 500);
         }
 
-        // Run on load
+        // --- MULTI-ROOM PDF GENERATION ---
+        function generateMultiPDF() {
+            if (!window.html2pdf) { window.print(); return; }
+            if (state.multiRooms.length === 0) { alert(state.lang === 'fr' ? "Veuillez ajouter au moins une chambre." : "Please add at least one room."); return; }
+
+            state.isGenerating = true; render();
+            els.pdfOverlayMulti.classList.remove('js-hidden'); setTimeout(() => { els.pdfOverlayMulti.classList.remove('opacity-0', 'pointer-events-none'); }, 10);
+
+            setTimeout(() => {
+                const element = document.getElementById('devis-print-area-multi');
+                const safeClientName = state.mrClientName ? `_${state.mrClientName.replace(/\s+/g, '_')}` : '';
+                const prefix = state.lang === 'fr' ? 'Devis' : 'Quote';
+                const multiLabel = state.lang === 'fr' ? 'MultiChambres' : 'MultiRoom';
+                
+                window.html2pdf().set({ margin: [0.4, 0, 0.4, 0], filename: `${prefix}_${multiLabel}_DakhlaCamp${safeClientName}.pdf`, image: { type: 'jpeg', quality: 1 }, pagebreak: { mode: 'css', avoid: ['tr', '.avoid-break'] }, html2canvas: { scale: 2, useCORS: true, scrollY: 0 }, jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' } }).from(element).save().then(() => {
+                    els.pdfOverlayMulti.classList.add('opacity-0', 'pointer-events-none'); setTimeout(() => els.pdfOverlayMulti.classList.add('js-hidden'), 300);
+                    state.isGenerating = false; render();
+                }).catch(err => {
+                    alert(state.lang === 'fr' ? "Erreur lors de la génération du PDF." : "Error generating PDF."); 
+                    els.pdfOverlayMulti.classList.add('opacity-0', 'pointer-events-none', 'js-hidden');
+                    state.isGenerating = false; render(); window.print();
+                });
+            }, 500);
+        }
+
         window.addEventListener('DOMContentLoaded', init);
 
     </script>
