@@ -4,16 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dakhla Camp Kitesurf - Reception</title>
-    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- html2pdf for PDF Generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        /* Hide elements before JS loads to prevent flashing */
         .js-hidden { display: none !important; }
-        /* Smooth fade for overlays */
         .fade-enter { transition: opacity 0.3s ease; }
-        /* Custom scrollbar for modal */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
@@ -199,7 +194,6 @@
                         </tr>
                     </thead>
                     <tbody id="pricing-table-body" class="divide-y divide-slate-100">
-                        <!-- Populated by JS -->
                     </tbody>
                 </table>
             </div>
@@ -207,10 +201,9 @@
 
     </main>
 
-    <!-- MULTI-ROOM MODAL (POPUP) - FULLY EDITABLE -->
+    <!-- MULTI-ROOM MODAL -->
     <div id="multi-room-modal" class="fixed inset-0 bg-slate-900/80 z-40 flex items-center justify-center p-2 sm:p-4 js-hidden fade-enter opacity-0 pointer-events-none print:hidden">
         <div class="bg-white sm:rounded-2xl w-full h-full sm:h-auto max-w-6xl max-h-screen sm:max-h-[95vh] flex flex-col shadow-2xl">
-            <!-- Modal Header -->
             <div class="p-4 sm:p-6 border-b border-slate-200 flex justify-between items-center bg-slate-50 sm:rounded-t-2xl shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="bg-indigo-100 p-2 rounded-lg text-indigo-700 hidden sm:block">
@@ -223,7 +216,6 @@
                 </button>
             </div>
 
-            <!-- Modal Body (Scrollable) -->
             <div class="p-4 sm:p-6 overflow-y-auto flex-1 flex flex-col gap-6 bg-white">
                 
                 <div class="bg-indigo-50/30 border-2 border-indigo-100 rounded-xl p-4 sm:p-5 shadow-sm shrink-0">
@@ -258,7 +250,6 @@
                     </div>
                 </div>
 
-                <!-- Add Room Form -->
                 <div class="bg-white border-2 border-slate-100 rounded-xl p-4 sm:p-5 shadow-sm shrink-0">
                     <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2">
                         <svg class="text-emerald-500" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -287,7 +278,6 @@
                     </div>
                 </div>
 
-                <!-- FULLY EDITABLE CART TABLE -->
                 <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm shrink-0">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm min-w-[800px]">
@@ -301,7 +291,6 @@
                                 </tr>
                             </thead>
                             <tbody id="mr-cart-body" class="divide-y divide-slate-100 bg-white">
-                                <!-- Populated by JS -->
                             </tbody>
                         </table>
                     </div>
@@ -331,7 +320,6 @@
 
             </div>
 
-            <!-- Modal Footer (Totals & Print) -->
             <div class="p-4 sm:p-6 border-t border-slate-200 bg-slate-50 sm:rounded-b-2xl flex flex-col md:flex-row justify-between items-center gap-6 shrink-0">
                 <div class="text-center lg:text-left flex-1 w-full flex flex-col items-center lg:items-start">
                     <p class="text-slate-600 text-sm font-semibold uppercase tracking-wider flex justify-between w-full max-w-xs mb-1">
@@ -431,14 +419,12 @@
                 </div>
             </div>
 
-            <!-- Global Dates -->
             <div class="mb-8 flex gap-8 bg-slate-50 p-4 rounded-lg border border-slate-200">
                 <div id="print-multi-arr-container" class="js-hidden"><strong class="text-slate-600 block text-xs uppercase" data-t="arrival">Arrivée</strong><span id="print-multi-arrival" class="font-bold block mt-1"></span></div>
                 <div id="print-multi-dep-container" class="js-hidden"><strong class="text-slate-600 block text-xs uppercase" data-t="departure">Départ</strong><span id="print-multi-departure" class="font-bold block mt-1"></span></div>
                 <div><strong class="text-slate-600 block text-xs uppercase" data-t="nights">Nuits</strong><span id="print-multi-nights" class="font-bold text-indigo-700 block mt-1 text-lg"></span></div>
             </div>
 
-            <!-- Invoice Table -->
             <div class="mb-6 w-full">
                 <table class="w-full text-left text-sm mb-4 border-collapse">
                     <thead class="bg-indigo-50 border-b-2 border-indigo-200 text-indigo-900">
@@ -450,12 +436,10 @@
                         </tr>
                     </thead>
                     <tbody id="print-multi-tbody" class="divide-y divide-slate-200">
-                        <!-- Filled by JS -->
                     </tbody>
                 </table>
             </div>
 
-            <!-- Print Pricing Totals -->
             <div class="flex justify-end shrink-0 avoid-break mt-12">
                 <div class="w-2/3 bg-slate-50 p-6 rounded-xl border border-slate-200">
                     <div id="print-multi-subtotal-row" class="flex justify-between items-center mb-2 text-slate-600 js-hidden">
@@ -479,7 +463,6 @@
                 </div>
             </div>
 
-            <!-- Print Footer -->
             <div class="mt-8 pt-6 border-t border-slate-200 text-center text-slate-500 text-sm shrink-0 avoid-break">
                 <p data-t="footerMsg">Merci d'avoir choisi Dakhla Camp Kitesurf. Nous avons hâte de vous accueillir !</p>
                 <p class="mt-2 font-semibold">www.dakhlacamp.com</p>
@@ -512,6 +495,10 @@
             { room: "Deluxe Bungalow", occupancy: "Single (1 Guest)", plan: "Bed & Breakfast (BB)", mad: 1300.00, eur: 121.50 },
             { room: "Deluxe Bungalow", occupancy: "Single (1 Guest)", plan: "Demi Pension (DP)", mad: 1400.00, eur: 130.84 },
             { room: "Deluxe Bungalow", occupancy: "Single (1 Guest)", plan: "Pension Complète (PC)*", mad: 1500.00, eur: 140.19 },
+            // NEW: Deluxe Bungalow Triple
+            { room: "Deluxe Bungalow", occupancy: "Triple (3 Guests)", plan: "Bed & Breakfast (BB)", mad: 1650.00, eur: 154.21 },
+            { room: "Deluxe Bungalow", occupancy: "Triple (3 Guests)", plan: "Demi Pension (DP)", mad: 1800.00, eur: 168.22 },
+            { room: "Deluxe Bungalow", occupancy: "Triple (3 Guests)", plan: "Pension Complète (PC)*", mad: 2050.00, eur: 191.59 },
 
             { room: "Suite", occupancy: "Double (2 Guests)", plan: "Bed & Breakfast (BB)", mad: 1350.00, eur: 126.17 },
             { room: "Suite", occupancy: "Double (2 Guests)", plan: "Demi Pension (DP)", mad: 1600.00, eur: 149.53 },
@@ -522,8 +509,12 @@
         ];
 
         const rooms = [...new Set(pricingData.map(item => item.room))];
-        const occupancies = [...new Set(pricingData.map(item => item.occupancy))];
         const ratePlans = [...new Set(pricingData.map(item => item.plan))];
+
+        // Helper: get available occupancies for a given room
+        function getOccupanciesForRoom(roomName) {
+            return [...new Set(pricingData.filter(p => p.room === roomName).map(p => p.occupancy))];
+        }
 
         const dataDict = {
             "Standard Bungalow": { fr: "Bungalow Standard", en: "Standard Bungalow" },
@@ -532,6 +523,7 @@
             "Suite": { fr: "Suite", en: "Suite" },
             "Double (2 Guests)": { fr: "Double (2 Personnes)", en: "Double (2 Guests)" },
             "Single (1 Guest)": { fr: "Single (1 Personne)", en: "Single (1 Guest)" },
+            "Triple (3 Guests)": { fr: "Triple (3 Personnes)", en: "Triple (3 Guests)" },
             "Bed & Breakfast (BB)": { fr: "Chambre & Petit-déjeuner (BB)", en: "Bed & Breakfast (BB)" },
             "Demi Pension (DP)": { fr: "Demi-Pension (DP)", en: "Half Board (HB)" },
             "Pension Complète (PC)*": { fr: "Pension Complète (PC)*", en: "Full Board (FB)*" }
@@ -647,10 +639,9 @@
         // --- STATE ---
         let state = {
             lang: 'fr',
-            // Single Room State
             currency: 'MAD',
             selectedRoom: rooms[0],
-            selectedOccupancy: occupancies[0],
+            selectedOccupancy: getOccupanciesForRoom(rooms[0])[0],
             selectedPlan: ratePlans[0],
             arrivalDate: '',
             departureDate: '',
@@ -661,7 +652,6 @@
             discountDesc: '',
             isGenerating: false,
             
-            // INDEPENDENT Multi-Room State
             mrCurrency: 'MAD',
             mrArrivalDate: '',
             mrDepartureDate: '',
@@ -670,9 +660,9 @@
             mrDiscountVal: 0,
             mrDiscountType: 'percent',
             mrDiscountDesc: '',
-            multiRooms: [], // { id, qty, room, occupancy, plan }
+            multiRooms: [],
             mrSelectedRoom: rooms[0],
-            mrSelectedOccupancy: occupancies[0],
+            mrSelectedOccupancy: getOccupanciesForRoom(rooms[0])[0],
             mrSelectedPlan: ratePlans[0],
             mrQty: 1
         };
@@ -680,7 +670,6 @@
         // --- DOM ELEMENTS ---
         const els = {
             langBtn: document.getElementById('btn-lang'),
-            // Single Room DOM
             madBtn: document.getElementById('btn-mad'),
             eurBtn: document.getElementById('btn-eur'),
             clientInput: document.getElementById('input-client'),
@@ -697,7 +686,6 @@
             tableBody: document.getElementById('pricing-table-body'),
             pdfOverlay: document.getElementById('pdf-overlay'),
             
-            // Multi-Room DOM
             btnOpenMulti: document.getElementById('btn-open-multi'),
             btnCloseMulti: document.getElementById('btn-close-multi'),
             multiModal: document.getElementById('multi-room-modal'),
@@ -728,11 +716,18 @@
         function init() {
             els.langBtn.addEventListener('click', () => { state.lang = state.lang === 'en' ? 'fr' : 'en'; render(); });
             
-            // Single Listeners
             els.madBtn.addEventListener('click', () => { state.currency = 'MAD'; render(); });
             els.eurBtn.addEventListener('click', () => { state.currency = 'EUR'; render(); });
             els.clientInput.addEventListener('input', (e) => { state.clientName = e.target.value; render(); });
-            els.roomSelect.addEventListener('change', (e) => { state.selectedRoom = e.target.value; render(); });
+            els.roomSelect.addEventListener('change', (e) => {
+                state.selectedRoom = e.target.value;
+                // Auto-correct occupancy if not available for new room
+                const avail = getOccupanciesForRoom(state.selectedRoom);
+                if (!avail.includes(state.selectedOccupancy)) {
+                    state.selectedOccupancy = avail[0];
+                }
+                render();
+            });
             els.occupancySelect.addEventListener('change', (e) => { state.selectedOccupancy = e.target.value; render(); });
             els.planSelect.addEventListener('change', (e) => { state.selectedPlan = e.target.value; render(); });
             els.arrivalInput.addEventListener('change', (e) => handleDates(e, 'single', 'arrival'));
@@ -743,7 +738,6 @@
             els.discountDescInput.addEventListener('input', (e) => { state.discountDesc = e.target.value; render(); });
             els.printBtn.addEventListener('click', generatePDF);
 
-            // Multi-Room Listeners
             els.btnOpenMulti.addEventListener('click', openMultiModal);
             els.btnCloseMulti.addEventListener('click', closeMultiModal);
             
@@ -754,7 +748,15 @@
             els.mrDepartureInput.addEventListener('change', (e) => handleDates(e, 'multi', 'departure'));
             els.mrNightsInput.addEventListener('input', (e) => handleDates(e, 'multi', 'nights'));
 
-            els.mrSelectRoom.addEventListener('change', (e) => { state.mrSelectedRoom = e.target.value; });
+            els.mrSelectRoom.addEventListener('change', (e) => {
+                state.mrSelectedRoom = e.target.value;
+                // Auto-correct occupancy if not available for new room
+                const avail = getOccupanciesForRoom(state.mrSelectedRoom);
+                if (!avail.includes(state.mrSelectedOccupancy)) {
+                    state.mrSelectedOccupancy = avail[0];
+                }
+                render();
+            });
             els.mrSelectOcc.addEventListener('change', (e) => { state.mrSelectedOccupancy = e.target.value; });
             els.mrSelectPlan.addEventListener('change', (e) => { state.mrSelectedPlan = e.target.value; });
             els.mrInputQty.addEventListener('input', (e) => { state.mrQty = parseInt(e.target.value) || 1; });
@@ -784,7 +786,6 @@
             return new Date(dateStr).toLocaleDateString(state.lang === 'fr' ? 'fr-FR' : 'en-US');
         }
 
-        // --- UNIFIED DATE HANDLER ---
         function handleDates(e, mode, type) {
             const isSingle = mode === 'single';
             let arr = isSingle ? state.arrivalDate : state.mrArrivalDate;
@@ -836,6 +837,13 @@
                     state.multiRooms[roomIndex].qty = parseInt(value) || 1;
                 } else {
                     state.multiRooms[roomIndex][field] = value;
+                    // If room changed, auto-correct occupancy if not available
+                    if (field === 'room') {
+                        const avail = getOccupanciesForRoom(value);
+                        if (!avail.includes(state.multiRooms[roomIndex].occupancy)) {
+                            state.multiRooms[roomIndex].occupancy = avail[0];
+                        }
+                    }
                 }
                 render();
             }
@@ -856,12 +864,30 @@
             els.mrClientInput.placeholder = translations[state.lang].clientPlaceholder;
             els.mrDiscountDescInput.placeholder = translations[state.lang].discountPlaceholder;
 
-            // 2. Select Options
+            // 2. Select Options — Room options (same for all)
             const roomOpts = rooms.map(r => `<option value="${r}">${tData(r)}</option>`).join('');
-            const occOpts = occupancies.map(o => `<option value="${o}">${tData(o)}</option>`).join('');
             const planOpts = ratePlans.map(p => `<option value="${p}">${tData(p)}</option>`).join('');
-            els.roomSelect.innerHTML = roomOpts; els.occupancySelect.innerHTML = occOpts; els.planSelect.innerHTML = planOpts;
-            els.mrSelectRoom.innerHTML = roomOpts; els.mrSelectOcc.innerHTML = occOpts; els.mrSelectPlan.innerHTML = planOpts;
+            
+            els.roomSelect.innerHTML = roomOpts;
+            els.planSelect.innerHTML = planOpts;
+            els.mrSelectRoom.innerHTML = roomOpts;
+            els.mrSelectPlan.innerHTML = planOpts;
+
+            // Occupancy options — filtered by selected room (single)
+            const singleOccupancies = getOccupanciesForRoom(state.selectedRoom);
+            if (!singleOccupancies.includes(state.selectedOccupancy)) {
+                state.selectedOccupancy = singleOccupancies[0];
+            }
+            const occOpts = singleOccupancies.map(o => `<option value="${o}">${tData(o)}</option>`).join('');
+            els.occupancySelect.innerHTML = occOpts;
+
+            // Occupancy options — filtered by selected room (multi-room add form)
+            const mrOccupancies = getOccupanciesForRoom(state.mrSelectedRoom);
+            if (!mrOccupancies.includes(state.mrSelectedOccupancy)) {
+                state.mrSelectedOccupancy = mrOccupancies[0];
+            }
+            const mrOccOpts = mrOccupancies.map(o => `<option value="${o}">${tData(o)}</option>`).join('');
+            els.mrSelectOcc.innerHTML = mrOccOpts;
             
             els.roomSelect.value = state.selectedRoom; els.occupancySelect.value = state.selectedOccupancy; els.planSelect.value = state.selectedPlan;
             els.mrSelectRoom.value = state.mrSelectedRoom; els.mrSelectOcc.value = state.mrSelectedOccupancy; els.mrSelectPlan.value = state.mrSelectedPlan;
@@ -922,7 +948,9 @@
                     const desc = `${tData(item.room)} - ${tData(item.occupancy)} - ${tData(item.plan)}`;
                     
                     const itemRoomOpts = rooms.map(r => `<option value="${r}" ${r === item.room ? 'selected' : ''}>${tData(r)}</option>`).join('');
-                    const itemOccOpts = occupancies.map(o => `<option value="${o}" ${o === item.occupancy ? 'selected' : ''}>${tData(o)}</option>`).join('');
+                    // Occupancy options filtered per this item's room
+                    const itemAvailOcc = getOccupanciesForRoom(item.room);
+                    const itemOccOpts = itemAvailOcc.map(o => `<option value="${o}" ${o === item.occupancy ? 'selected' : ''}>${tData(o)}</option>`).join('');
                     const itemPlanOpts = ratePlans.map(p => `<option value="${p}" ${p === item.plan ? 'selected' : ''}>${tData(p)}</option>`).join('');
 
                     mrTableHTML += `
@@ -972,7 +1000,7 @@
             pricingData.forEach((row, idx) => {
                 const isFirstRoom = idx === 0 || pricingData[idx-1].room !== row.room;
                 const isFirstOcc = isFirstRoom || pricingData[idx-1].occupancy !== row.occupancy;
-                tableHTML += `<tr class="hover:bg-slate-50 transition-colors"><td class="p-4 align-top ${isFirstRoom ? 'font-bold text-slate-800' : 'text-transparent'}">${isFirstRoom ? tData(row.room) : '”'}</td><td class="p-4 align-top ${isFirstOcc ? 'font-medium text-slate-700' : 'text-transparent'}">${isFirstOcc ? tData(row.occupancy) : '”'}</td><td class="p-4 text-slate-600">${tData(row.plan)}</td><td class="p-4 text-right font-semibold text-emerald-700">${formatCurrency(row.mad, 'MAD')}</td><td class="p-4 text-right font-semibold text-blue-700">${formatCurrency(row.eur, 'EUR')}</td></tr>`;
+                tableHTML += `<tr class="hover:bg-slate-50 transition-colors"><td class="p-4 align-top ${isFirstRoom ? 'font-bold text-slate-800' : 'text-transparent'}">${isFirstRoom ? tData(row.room) : '"'}</td><td class="p-4 align-top ${isFirstOcc ? 'font-medium text-slate-700' : 'text-transparent'}">${isFirstOcc ? tData(row.occupancy) : '"'}</td><td class="p-4 text-slate-600">${tData(row.plan)}</td><td class="p-4 text-right font-semibold text-emerald-700">${formatCurrency(row.mad, 'MAD')}</td><td class="p-4 text-right font-semibold text-blue-700">${formatCurrency(row.eur, 'EUR')}</td></tr>`;
             });
             els.tableBody.innerHTML = tableHTML;
 
@@ -980,7 +1008,6 @@
             const printDate = new Date().toLocaleDateString(state.lang === 'fr' ? 'fr-FR' : 'en-US');
             document.getElementById('print-date').innerText = printDate; document.getElementById('print-multi-date').innerText = printDate;
             
-            // Single PDF Fill
             if (state.clientName) { document.getElementById('print-client-container').classList.remove('js-hidden'); document.getElementById('print-client').innerText = state.clientName; } 
             else { document.getElementById('print-client-container').classList.add('js-hidden'); }
             
@@ -1002,7 +1029,6 @@
             }
             document.getElementById('print-total').innerText = formatCurrency(totalPrice, state.currency);
 
-            // Multi PDF Fill
             if (state.mrClientName) { document.getElementById('print-multi-client-container').classList.remove('js-hidden'); document.getElementById('print-multi-client').innerText = state.mrClientName; } 
             else { document.getElementById('print-multi-client-container').classList.add('js-hidden'); }
 
@@ -1021,7 +1047,6 @@
             }
             document.getElementById('print-multi-total').innerText = formatCurrency(mrTotalPrice, state.mrCurrency);
 
-            // Button States
             if(state.isGenerating) {
                 els.printBtn.classList.add('bg-slate-400', 'cursor-not-allowed'); els.printBtn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
                 document.getElementById('icon-print').classList.add('js-hidden'); document.getElementById('icon-loading').classList.remove('js-hidden'); document.getElementById('text-btn-print').innerText = translations[state.lang].generatingPdf;
